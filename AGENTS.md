@@ -70,3 +70,13 @@ base-de-datos/
 - No eliminar ni modificar `syllabus.md` (es la fuente oficial).
 - Mantener la consistencia de nombres y estilos entre archivos.
 - Si una versión nueva del syllabus cambia temas, reflejarlo en `docs/README.md`.
+
+## Normas de la asignatura
+
+- **Dispositivos electrónicos:** no se permiten durante exámenes ni en las
+  presentaciones de estos; su uso implica nota de cero (0).
+- **Entregas:** las tareas y trabajos deben entregarse **a mano** (con
+  bolígrafo/manuscritas), salvo los talleres que requieran computador (lo cual
+  define el docente).
+- En los exámenes, los maletines/morrales se dejan donde el docente lo defina y
+  quienes tengan cabello largo deben recogerlo para dejar visibles las orejas.
