@@ -15,6 +15,7 @@ por tema, listo para completar.
 | Tema | Documento |
 | :--- | :--- |
 | Conceptos generales: dato, información y sistemas | [conceptos-datos-informacion-sistemas.md](unidad-1/conceptos-datos-informacion-sistemas.md) |
+| Código ASCII: representación binaria de caracteres | [representacion-datos-ascii.md](unidad-1/representacion-datos-ascii.md) |
 | La pirámide de DIKW | [dikw-piramide.md](unidad-1/dikw-piramide.md) |
 | Origen y evolución de las bases de datos | [origen-evolucion-bd.md](unidad-1/origen-evolucion-bd.md) |
 | Concepto de base de datos y sus objetivos | [conceptos-y-objetivos-bd.md](unidad-1/conceptos-y-objetivos-bd.md) |
