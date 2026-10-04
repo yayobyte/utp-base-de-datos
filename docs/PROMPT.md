@@ -71,3 +71,9 @@ use a file for the general typography and design system configuration so common 
 - App Vite + React 19 + TS en la raíz; dependencias y scripts instalados; `vercel.json` y `.env.example`.
 - Lint con oxlint (plantilla actual de Vite).
 - Siguiente: "Ejecuta docs/PLAN.md fase 2" (tema + kit UI).
+
+### Iteración 3 — 2026-10-04: fase 2 (tema + kit UI)
+
+- `src/theme/tokens.ts` con los valores de DESIGN.md → variables CSS vía `applyTheme()`.
+- 17 elementos en `src/ui/` (3 archivos cada uno) y página de muestra en `/ui` (solo `npm run dev`).
+- Siguiente: "Ejecuta docs/PLAN.md fase 3" (shell + navegación global + inicio).

@@ -72,6 +72,7 @@ src/ui/Button/
 ```
 
 Los barrels (`index.ts`) existen solo a nivel de carpeta (`src/ui/index.ts`), no por componente.
+Los archivos de prueba (`X.test.tsx`) pueden vivir junto al componente y no cuentan en la regla de 3 archivos.
 
 ## 4. Sistema de diseño
 
@@ -80,10 +81,11 @@ Los barrels (`index.ts`) existen solo a nivel de carpeta (`src/ui/index.ts`), no
 | Grupo | Variables | Ejemplo |
 |---|---|---|
 | Color | `--color-primary`, `--color-body`, `--color-mute`, `--color-canvas`, `--color-canvas-soft`, … | `#000000`, `#5e5e5e` |
-| Tipografía | `--font-display`, `--font-text`, `--text-display-xl-size`, … | Inter 700 / 400–500 |
+| Tipografía | `--type-<token>` (shorthand: `font: var(--type-body-md)`), `--type-<token>-size`, `--font-display/text/mono` | Inter 700 / 400–500 |
 | Espaciado | `--space-xxs` … `--space-3xl` | 4 → 32 px |
 | Bordes | `--radius-md`, `--radius-xl`, `--radius-pill`, `--radius-pill-tab` | 8, 16, 999, 36 px |
-| Sombras | `--shadow-1`, `--shadow-2`, `--shadow-3` | niveles de DESIGN.md |
+| Sombras | `--shadow-level1`, `--shadow-level2`, `--shadow-level3` | niveles de DESIGN.md |
+| Otros | `--border-*`, `--size-*` (container, side-nav, modal, control-height…), `--motion-*`, `--z-*` | |
 
 Reglas visuales:
 - Blanco/negro; botón primario = píldora negra. Elementos interactivos: `--radius-pill`. Tarjetas: `--radius-xl`.

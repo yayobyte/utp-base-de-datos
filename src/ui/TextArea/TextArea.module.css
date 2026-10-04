@@ -1,0 +1,33 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.label {
+  font: var(--type-body-sm-strong);
+}
+
+.area {
+  width: 100%;
+  padding: var(--space-md) var(--space-lg);
+  border: var(--border-strong) solid transparent;
+  border-radius: var(--radius-md);
+  background: var(--color-canvas-soft);
+  font: var(--type-body-md);
+  resize: vertical;
+}
+
+.area:focus {
+  outline: none;
+  border-color: var(--color-ink);
+}
+
+.mono {
+  font: var(--type-code);
+}
+
+.hint {
+  font: var(--type-caption);
+  color: var(--color-body);
+}

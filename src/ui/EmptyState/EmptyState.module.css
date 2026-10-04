@@ -1,0 +1,24 @@
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-3xl);
+  border-radius: var(--radius-xl);
+  background: var(--color-canvas-soft);
+  text-align: center;
+}
+
+.icon {
+  font: var(--type-display-lg);
+}
+
+.title {
+  font: var(--type-display-sm);
+}
+
+.description {
+  max-width: var(--size-modal);
+  font: var(--type-body-md);
+  color: var(--color-body);
+}

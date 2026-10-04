@@ -1,0 +1,25 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.label {
+  font: var(--type-body-sm-strong);
+}
+
+.select {
+  width: 100%;
+  min-height: var(--size-control-height);
+  padding: var(--space-md) var(--space-lg);
+  border: var(--border-strong) solid transparent;
+  border-radius: var(--radius-md);
+  background: var(--color-canvas-soft);
+  font: var(--type-body-md);
+  cursor: pointer;
+}
+
+.select:focus {
+  outline: none;
+  border-color: var(--color-ink);
+}

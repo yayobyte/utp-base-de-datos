@@ -1,0 +1,37 @@
+.block {
+  margin: 0;
+  border-radius: var(--radius-lg);
+  background: var(--color-ink);
+  color: var(--color-on-dark);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--color-black-elevated);
+  font: var(--type-caption);
+  font-weight: 500;
+  color: var(--color-mute);
+}
+
+.copy {
+  padding: var(--space-xxs) var(--space-md);
+  border: none;
+  border-radius: var(--radius-pill);
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font: var(--type-caption);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.pre {
+  margin: 0;
+  padding: var(--space-lg);
+  overflow-x: auto;
+  font: var(--type-code);
+  white-space: pre;
+}

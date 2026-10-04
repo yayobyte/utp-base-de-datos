@@ -1,0 +1,32 @@
+.tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--space-xxs);
+  padding: var(--space-xxs);
+  border-radius: var(--radius-pill-tab);
+  background: var(--color-canvas-soft);
+}
+
+.tab {
+  padding: var(--space-sm) var(--space-lg);
+  border: none;
+  border-radius: var(--radius-pill-tab);
+  background: transparent;
+  font: var(--type-body-md-strong);
+  cursor: pointer;
+  transition: background var(--motion-fast);
+}
+
+.tab:hover:not(:disabled):not(.active) {
+  background: var(--color-surface-pressed);
+}
+
+.tab:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.active {
+  background: var(--color-canvas);
+  box-shadow: var(--shadow-level3);
+}

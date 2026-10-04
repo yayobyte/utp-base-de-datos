@@ -130,7 +130,7 @@ The current repo is a class-notes repo. It gets restructured: **the app lives at
 
 **Verify:** `npm run build && npm run typecheck`.
 
-## Phase 2 — Theme + UI kit  ☐
+## Phase 2 — Theme + UI kit  ☑ (2026-10-04)
 
 1. `src/theme/tokens.ts` holds `exam/DESIGN.md` values verbatim:
    - colors: primary #000, body #5e5e5e, mute #afafaf, canvas, canvas-soft #efefef, canvas-softer #f3f3f3, surface-pressed #e2e2e2, black-elevated #282828, link #0000ee
