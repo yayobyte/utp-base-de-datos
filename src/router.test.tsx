@@ -26,6 +26,12 @@ describe('router', () => {
     expect(screen.getByRole('link', { name: /Punto 2/ }).getAttribute('aria-current')).toBe('page')
   })
 
+  it('muestra el estado del despliegue', async () => {
+    renderAt('/estado')
+    expect(screen.getByRole('heading', { level: 1, name: 'Estado del despliegue' })).toBeTruthy()
+    expect(await screen.findAllByText('Sin configurar')).toHaveLength(2)
+  })
+
   it('muestra 404 en rutas desconocidas', () => {
     renderAt('/no-existe')
     expect(screen.getByRole('heading', { name: 'Página no encontrada' })).toBeTruthy()

@@ -162,7 +162,7 @@ The current repo is a class-notes repo. It gets restructured: **the app lives at
 
 **Verify:** `npm run dev`; click through all routes at desktop and at a 375px width.
 
-## Phase 4 — Data layer (ORM)  ☐
+## Phase 4 — Data layer (ORM)  ☑ (2026-10-04)
 
 1. `clients.ts`: `p1` and `p2` `createClient`. If env vars are missing, show an inline "Configura .env.local" EmptyState instead of crashing.
 2. `Repository<T>` generic over the table name. Methods return typed rows. All errors are mapped to `DataError {message, code}`.

@@ -83,3 +83,15 @@ use a file for the general typography and design system configuration so common 
 - Navegación global simple con los 3 puntos (`src/layout/navigation.ts`), inicio con 3 tarjetas, pie negro, 404.
 - Los puntos muestran una página provisional hasta su fase (5, 6, 7).
 - Siguiente: "Ejecuta docs/PLAN.md fase 4" (capa de datos / ORM).
+
+### Iteración 5 — 2026-10-04: fase 4 (capa de datos)
+
+- ORM ligero sobre supabase-js (`Repository<T>`), errores `DataError`, ejecutor SQL del punto 2 (RPC `run_sql` / `reset_data`).
+- Sin credenciales, las páginas muestran "Configura .env.local" con las variables que faltan.
+- Siguiente: fase 5 (punto 2) — la migración y la UI se pueden escribir ya; para probar contra la BD real se necesitan URL, anon key y project ref de la BD #2. Alternativa sin credenciales: fase 7 (punto 3).
+
+### Iteración 6 — 2026-10-04: despliegue primero (Vercel + Supabase)
+
+- Pedido: conectar Vercel y Supabase antes de la fase 5 para asegurar que el despliegue funciona.
+- Repo preparado: carpetas Supabase de las 2 BD, migración `health`, página `/estado`, `vercel.json` completo.
+- Pasos manuales en dashboards: [docs/despliegue.md](despliegue.md). Verificación: `/estado` → "Todo funciona".

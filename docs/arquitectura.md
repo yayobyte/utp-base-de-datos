@@ -93,7 +93,9 @@ Reglas visuales:
 
 ## 5. Datos
 
-- **Repository<T>** (`findAll`, `findBy`, `findOne`, `insert`, `update`, `remove`); errores normalizados a `DataError`.
+- **Repository<T>** (`findAll`, `findBy`, `findOne`, `getOne`, `count`, `insert`, `update`, `remove`); errores normalizados a `DataError` (`not_configured`, `not_found`, `query_failed`, `network`). `update`/`remove` sin filtros se rechazan.
+- **Sin credenciales** la app no falla: `SupabaseGuard` muestra qué variables faltan en `.env.local`.
+- **Pruebas:** `src/data/testing/fakeSupabase.ts` simula el cliente y registra la cadena de llamadas.
 - **Punto 2:** `run_sql(statements text[])` y `reset_data()` son funciones `SECURITY DEFINER` que se ejecutan con el rol `exam_runner` (solo DML sobre `public`) y tienen un *timeout* de 3 s.
 - **Datos semilla en migraciones:** Supabase no aplica `seed.sql` en producción; `seed.sql` solo sirve para ramas de vista previa.
 

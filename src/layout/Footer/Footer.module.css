@@ -24,3 +24,13 @@
   font: var(--type-caption);
   color: var(--color-mute);
 }
+
+.link {
+  margin-top: var(--space-sm);
+  font: var(--type-body-sm);
+  color: var(--color-mute);
+}
+
+.link:hover {
+  color: var(--color-on-dark);
+}

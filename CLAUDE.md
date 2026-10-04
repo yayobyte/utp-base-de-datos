@@ -27,11 +27,11 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - [x] Fase 1 — Scaffold Vite/React/TS
 - [x] Fase 2 — Tema + kit UI
 - [x] Fase 3 — Shell + navegación global
-- [ ] Fase 4 — Capa de datos (ORM)
+- [x] Fase 4 — Capa de datos (ORM)
 - [ ] Fase 5 — Punto 2 (BD ⏸ credenciales proyecto 2)
 - [ ] Fase 6 — Punto 1 (BD ⏸ credenciales proyecto 1)
 - [ ] Fase 7 — Punto 3 normalización
-- [ ] Fase 8 — Integración GitHub↔Supabase + Vercel (⏸)
+- [ ] Fase 8 — Integración GitHub↔Supabase + Vercel (repo listo; faltan pasos del usuario en dashboards)
 
 ## Decisiones tomadas
 
@@ -48,10 +48,14 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 
 ## Pendientes / bloqueos
 
-- Credenciales Supabase (URL, anon key, project ref) de BD1 y BD2.
+- Usuario: crear proyectos Supabase #1/#2, conectar GitHub (working dirs `databases/punto-1|2`), importar en Vercel con las 4 variables `VITE_*` — ver docs/despliegue.md. Luego verificar `/estado`.
 - Preguntas abiertas: [docs/preguntas-abiertas.md](docs/preguntas-abiertas.md).
 
 ## Bitácora
+
+- **2026-10-04 — Despliegue (adelanto de fase 8):** `npx supabase init` en `databases/punto-1` y `databases/punto-2` (project_id `examen-bd-punto-N`; puertos locales del #2 en 553xx). Migración `20261004000000_health.sql` en ambos (esquema `app`, tabla `app.despliegue`, RPC `public.health()` SECURITY DEFINER para anon), validada con PGlite. `src/data/health.ts` (checkHealth, nunca lanza). Env leído de forma perezosa en `clients.ts` (para pruebas). Página `/estado` (`features/estado/StatusPage`) con build de Vercel (`__BUILD_INFO__` vía `define` en vite.config.ts) y estado de ambas BD; enlace en el pie. `vercel.json` con framework/install/build/output; `engines.node >=22.12`. `docs/despliegue.md` reescrito como checklist. 29 tests en verde.
+
+- **2026-10-04 — Fase 4:** `src/data/`: `clients.ts` (getClient p1/p2 con caché, isConfigured, missingEnv; lanza DataError `not_configured`), `orm/DataError.ts`, `orm/types.ts`, `orm/Repository.ts` (findAll, findBy, findOne, getOne, count, insert, update, remove; update/remove exigen filtros), `punto2/sqlRunner.ts` (PUNTO2_TABLES, splitStatements, runSql → RPC `run_sql`, runScript, resetData → RPC `reset_data`, tableRepository), `index.ts`. `testing/fakeSupabase.ts` para pruebas. Hooks `useAsync`, `useProjectStatus`. Componente `features/shared/SupabaseGuard` (aviso "Configura .env.local"). Tipos de env en `src/vite-env.d.ts`. 25 tests en verde; supabase solo se importa en `src/data/`.
 
 - **2026-10-04 — Fase 3:** `src/router.tsx` (createBrowserRouter; `/`, `/punto-1/*`, `/punto-2`, `/punto-3`, 404, `/ui` solo dev). `src/layout/` con AppShell, GlobalNav (píldoras con NavLink activo), Footer negro, SectionHeader y `navigation.ts` (EXAM_POINTS, fuente única de los 3 puntos). Inicio en `features/home/HomePage`. Páginas provisionales `features/shared/PointPlaceholder` (indican la fase pendiente) y `NotFound`. Tests de rutas (10 en total) en verde.
 
