@@ -7,7 +7,7 @@ export function Footer({ course = 'Bases de Datos I (IS644) · Universidad Tecno
       <div className={styles.inner}>
         <p className={styles.title}>Examen Final</p>
         <p className={styles.text}>{course}</p>
-        <p className={styles.mute}>Texto guía: Connolly &amp; Begg — Sistemas de Bases de Datos</p>
+        <p className={styles.mute}>Cristian Gutiérrez González</p>
       </div>
     </footer>
   )

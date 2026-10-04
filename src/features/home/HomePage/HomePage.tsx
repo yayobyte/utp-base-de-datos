@@ -9,7 +9,6 @@ export function HomePage({ points }: HomePageProps) {
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
-        <p className={styles.eyebrow}>Bases de Datos I · IS644 · UTP</p>
         <h1 className={styles.headline}>Examen final, resuelto y ejecutable</h1>
         <p className={styles.lead}>
           Tres puntos: un modelo E-ER convertido en sistema, consultas SQL sobre una base de datos real y la normalización

@@ -8,7 +8,7 @@ export function GlobalNav({ points }: GlobalNavProps) {
     <NavBar
       brand={
         <Link to="/" className={styles.brand}>
-          Examen Final BD
+          Examen Final IS644
         </Link>
       }
     >
