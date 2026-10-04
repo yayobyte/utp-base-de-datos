@@ -14,6 +14,9 @@ const buildInfo = {
 
 export default defineConfig({
   plugins: [react()],
+  // NEXT_PUBLIC_*: variables públicas que la integración Supabase ↔ Vercel crea y mantiene (URL + publishable key).
+  // Nunca añadir aquí prefijos de variables secretas (SUPABASE_, POSTGRES_).
+  envPrefix: ['VITE_', 'NEXT_PUBLIC_'],
   define: {
     __BUILD_INFO__: JSON.stringify(buildInfo),
   },
@@ -22,6 +25,16 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
+    // Las pruebas no dependen del .env.local del desarrollador: cada prueba simula lo que necesita.
+    env: {
+      VITE_P1_SUPABASE_URL: '',
+      VITE_P1_SUPABASE_ANON_KEY: '',
+      VITE_P2_SUPABASE_URL: '',
+      VITE_P2_SUPABASE_ANON_KEY: '',
+      NEXT_PUBLIC_SUPABASE_URL: '',
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: '',
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: '',
+    },
     globals: true,
   },
 })

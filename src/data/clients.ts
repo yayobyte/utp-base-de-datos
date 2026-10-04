@@ -4,11 +4,20 @@ import type { ProjectId } from './orm/types'
 
 const LABELS: Record<ProjectId, string> = { p1: 'BD #1 (Punto 1)', p2: 'BD #2 (Punto 2)' }
 
-/** Variables de entorno por proyecto (ver .env.example). Se leen al usarse para poder simularlas en pruebas. */
+/**
+ * Variables de entorno por proyecto (ver .env.example). Se leen al usarse para poder simularlas en pruebas.
+ * BD #1 también acepta las variables públicas que crea la integración Supabase ↔ Vercel (NEXT_PUBLIC_*),
+ * que Supabase mantiene sincronizadas. Solo se usan valores públicos: URL y publishable/anon key.
+ */
 function env(project: ProjectId): { url?: string; key?: string; label: string } {
+  const e = import.meta.env
   return project === 'p1'
-    ? { url: import.meta.env.VITE_P1_SUPABASE_URL, key: import.meta.env.VITE_P1_SUPABASE_ANON_KEY, label: LABELS.p1 }
-    : { url: import.meta.env.VITE_P2_SUPABASE_URL, key: import.meta.env.VITE_P2_SUPABASE_ANON_KEY, label: LABELS.p2 }
+    ? {
+        url: e.VITE_P1_SUPABASE_URL || e.NEXT_PUBLIC_SUPABASE_URL,
+        key: e.VITE_P1_SUPABASE_ANON_KEY || e.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || e.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+        label: LABELS.p1,
+      }
+    : { url: e.VITE_P2_SUPABASE_URL, key: e.VITE_P2_SUPABASE_ANON_KEY, label: LABELS.p2 }
 }
 
 const cache = new Map<ProjectId, SupabaseClient>()

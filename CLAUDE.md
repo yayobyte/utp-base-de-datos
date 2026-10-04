@@ -44,6 +44,7 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 | 2026-10-04 | Datos de producción van en migraciones (Supabase no aplica `seed.sql` en producción). |
 | 2026-10-04 | Punto 3 usa solo estado frontend (Zustand), sin BD. |
 | 2026-10-04 | Tipografía como shorthand CSS: `font: var(--type-body-md)`. Los tests (`*.test.ts(x)`) no cuentan en la regla de 3 archivos. |
+| 2026-10-04 | BD #1 usa las variables públicas de la integración Supabase↔Vercel (`NEXT_PUBLIC_*`); `VITE_P1_*` tiene prioridad si existe. BD #2 usa `VITE_P2_*`. |
 | 2026-10-04 | Lint con **oxlint** (plantilla actual de Vite) en lugar de ESLint. Vite 8, React 19, TS 6. |
 
 ## Pendientes / bloqueos
@@ -52,6 +53,8 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - Preguntas abiertas: [docs/preguntas-abiertas.md](docs/preguntas-abiertas.md).
 
 ## Bitácora
+
+- **2026-10-04 — Despliegue BD #1 verificado:** integración GitHub↔Supabase aplicó la migración `health` en el proyecto #1 (`slbngbrtpiewenvsiabe`) tras un push nuevo; `health()` responde ok. El build de Vercel no tenía las variables `VITE_*` → la app ahora también lee `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY|ANON_KEY` (creadas por la integración Supabase↔Vercel) mediante `envPrefix: ['VITE_', 'NEXT_PUBLIC_']`. Verificado que ningún secreto (service role, POSTGRES_*) entra al bundle. Vitest fija las variables a vacío para no depender de `.env.local`. 30 tests en verde.
 
 - **2026-10-04 — Despliegue (adelanto de fase 8):** `npx supabase init` en `databases/punto-1` y `databases/punto-2` (project_id `examen-bd-punto-N`; puertos locales del #2 en 553xx). Migración `20261004000000_health.sql` en ambos (esquema `app`, tabla `app.despliegue`, RPC `public.health()` SECURITY DEFINER para anon), validada con PGlite. `src/data/health.ts` (checkHealth, nunca lanza). Env leído de forma perezosa en `clients.ts` (para pruebas). Página `/estado` (`features/estado/StatusPage`) con build de Vercel (`__BUILD_INFO__` vía `define` en vite.config.ts) y estado de ambas BD; enlace en el pie. `vercel.json` con framework/install/build/output; `engines.node >=22.12`. `docs/despliegue.md` reescrito como checklist. 29 tests en verde.
 

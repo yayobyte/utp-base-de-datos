@@ -64,12 +64,24 @@ npx supabase db push --workdir databases/punto-2
 2. Framework: **Vite** (lo toma de `vercel.json`). Root directory: `./`.
 3. *Environment Variables* (marcar **Production** y **Preview**):
 
+**BD #1:** no hay que añadir nada si se instaló la integración **Supabase ↔ Vercel** (*Supabase → Integrations →
+Vercel*): crea `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` y las mantiene al día. La app las
+lee gracias a `envPrefix: ['VITE_', 'NEXT_PUBLIC_']` en `vite.config.ts`. Las demás variables de la integración
+(`SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_SECRET_KEY`, `POSTGRES_*`…) **no** llegan al navegador porque no tienen
+esos prefijos.
+
+**BD #2** (y BD #1 si no se usa la integración), a mano:
+
 | Variable | Valor |
 |---|---|
-| `VITE_P1_SUPABASE_URL` | Project URL del #1 |
-| `VITE_P1_SUPABASE_ANON_KEY` | anon key del #1 |
+| `VITE_P1_SUPABASE_URL` | Project URL del #1 (opcional, tiene prioridad sobre `NEXT_PUBLIC_SUPABASE_URL`) |
+| `VITE_P1_SUPABASE_ANON_KEY` | publishable key del #1 (opcional) |
 | `VITE_P2_SUPABASE_URL` | Project URL del #2 |
-| `VITE_P2_SUPABASE_ANON_KEY` | anon key del #2 |
+| `VITE_P2_SUPABASE_ANON_KEY` | publishable key del #2 |
+
+Vercel muestra el aviso *"Remove the public framework prefix to keep this value private"* al crear una variable
+`VITE_*`. Es correcto para URL y publishable key (son públicas por diseño): confirmar. **Nunca** poner prefijo
+`VITE_` o `NEXT_PUBLIC_` a una llave secreta.
 
 4. *Deploy*. Las variables `VITE_*` se incrustan en el build: **si se cambian, hay que volver a desplegar**
    (*Deployments → … → Redeploy*).

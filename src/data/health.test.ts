@@ -10,10 +10,20 @@ afterEach(() => {
 describe('checkHealth', () => {
   it('informa "no configurado" sin variables de entorno, sin llamar a la BD', async () => {
     vi.stubEnv('VITE_P1_SUPABASE_URL', '')
+    vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', '')
     const fake = fakeSupabase()
     setClientForTesting('p1', fake.client)
     expect(await checkHealth('p1')).toMatchObject({ configured: false, ok: false })
     expect(fake.calls).toHaveLength(0)
+  })
+
+  it('BD #1 acepta las variables NEXT_PUBLIC_* de la integración Vercel', async () => {
+    vi.stubEnv('VITE_P1_SUPABASE_URL', '')
+    vi.stubEnv('VITE_P1_SUPABASE_ANON_KEY', '')
+    vi.stubEnv('NEXT_PUBLIC_SUPABASE_URL', 'https://demo.supabase.co')
+    vi.stubEnv('NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY', 'sb_publishable_x')
+    setClientForTesting('p1', fakeSupabase({ data: { ok: true } }).client)
+    expect(await checkHealth('p1')).toMatchObject({ configured: true, ok: true })
   })
 
   it('devuelve versión y migraciones cuando la RPC responde', async () => {
