@@ -1,36 +1,36 @@
-# Documentación de Estudio — Bases de Datos I (IS644)
+# Examen Final — Bases de Datos I (IS644, UTP)
 
-Índice de documentación para **Bases de Datos I** (IS644), Universidad
-Tecnológica de Pereira. Todos los apuntes siguen las convenciones de
-[`AGENTS.md`](AGENTS.md) y se basan en la planeación de la asignatura
-([`syllabus.md`](syllabus.md) y la PDF «IS644 Planeación»).
+Aplicación web que resuelve los tres puntos del examen final
+([enunciado](docs/examen/exam.md)) y repositorio del material de la asignatura.
 
-## 📚 Unidades
+| Punto | Tema | Qué muestra la app |
+|:---:|---|---|
+| 1 | Modelado E-ER: registro de notas UTP | Sistema funcional; se puede suplantar a Estudiante, Docente o Admin y ejecutar sus procesos. BD Supabase #1. |
+| 2 | Consultas: películas, actores y alquileres | Todas las tablas visibles, consola SQL y respuestas a–e ejecutables. BD Supabase #2. |
+| 3 | Normalización de la tabla `Préstamo` | Paso a paso 0FN → 1FN → 2FN → 3FN (solo frontend). |
 
-La documentación se organiza por unidad, con un archivo `.md` por tema.
-Ver el **[índice completo en `docs/README.md`](docs/README.md)**.
+**Stack:** Vite + React + TypeScript · Supabase · Vercel · Zustand · diseño basado en
+[DESIGN.md (Uber)](docs/examen/DESIGN.md).
 
-| Unidad | Tema | Carpeta |
-| :---: | :--- | :--- |
-| 1 | Sistemas de Gestión de Bases de Datos | [`docs/unidad-1/`](docs/unidad-1/) |
-| 2 | Modelo de Datos | [`docs/unidad-2/`](docs/unidad-2/) |
-| 3 | Introducción al Diseño de BD | [`docs/unidad-3/`](docs/unidad-3/) |
-| 4 | Fundamentos del Modelo Relacional | [`docs/unidad-4/`](docs/unidad-4/) |
-| 5 | SQL (Structured Query Language) | [`docs/unidad-5/`](docs/unidad-5/) |
-| 6 | Integridad y Seguridad | [`docs/unidad-6/`](docs/unidad-6/) |
-| 7 | Otras Orientaciones | [`docs/unidad-7/`](docs/unidad-7/) |
+## Documentación del proyecto
 
-## 📖 Libro guía
+- [Plan ejecutable por fases](docs/PLAN.md) · [Memoria del agente](CLAUDE.md) · [Convenciones](AGENTS.md)
+- [Arquitectura](docs/arquitectura.md) · [Despliegue](docs/despliegue.md) · [Preguntas abiertas](docs/preguntas-abiertas.md)
+- Especificaciones: [Punto 1](docs/especificacion-punto-1.md) · [Punto 2](docs/especificacion-punto-2.md) · [Punto 3](docs/especificacion-punto-3.md)
 
-- **[Referencia del libro Connolly & Begg (6.ª ed.)](docs/libro-guia-connolly-begg.md)**
-  — estructura del libro, capítulos por unidad y equivalencias con la edición citada
-  en la planeación.
+## Material de clase
 
-## 🗺️ Diagramas (Excalidraw)
+Todo el material de la asignatura está en [`curso/`](curso/):
+[syllabus](curso/syllabus.md) · [índice de apuntes](curso/docs/README.md) ·
+[libro guía](curso/docs/libro-guia-connolly-begg.md) ·
+[talleres SQL (unidad 4)](curso/docs/unidad4-algebra-relacional/).
 
-Los diagramas conceptuales se encuentran en [`docs/diagrams/`](docs/diagrams/) y se
-referencian desde cada documento en formato SVG:
+## Desarrollo
 
-```
-![Modelo E/R](docs/diagrams/ejemplo.excalidraw.svg)
+> Disponible a partir de la fase 1 del plan.
+
+```bash
+npm install
+cp .env.example .env.local   # completar credenciales de Supabase
+npm run dev
 ```

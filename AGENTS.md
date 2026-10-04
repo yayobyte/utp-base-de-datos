@@ -9,7 +9,7 @@ de esta carpeta de forma consistente. **Léelo siempre antes de hacer cambios.**
 - **Universidad:** Universidad Tecnológica de Pereira (UTP)
 - **Programa:** Ingeniería de Sistemas y Computación
 - **Texto guía:** Connolly & Begg — *Sistemas de Bases de Datos* (4ª ed.)
-- **Fuente de verdad:** `syllabus.md` (programa oficial de la asignatura)
+- **Fuente de verdad:** `curso/syllabus.md` (programa oficial de la asignatura)
 - **Docente:** Iván Alexander Laverde G. (Profesional Universitario, Gestión de
   Tecnologías Informáticas y Sistemas de Información, UTP)
 
@@ -21,16 +21,33 @@ es generar documentación de estudio clara, completa y bien estructurada.
 ## Estructura de carpetas
 
 ```
-base-de-datos/
+utp-base-de-datos/
 ├── AGENTS.md          # Este archivo (convenciones)
-├── syllabus.md        # Programa oficial de la asignatura
-└── docs/              # Documentación de estudio por unidad/tema
+├── CLAUDE.md          # Memoria/bitácora del agente (actualizar cada iteración)
+├── docs/              # Documentación del PROYECTO (app del examen final)
+│   ├── PLAN.md        # Plan ejecutable por fases
+│   ├── PROMPT.md      # Prompt del usuario (actualizar cada iteración)
+│   └── examen/        # Enunciado, DESIGN.md (Uber), imágenes, PDF
+├── curso/             # Material de CLASE
+│   ├── syllabus.md    # Programa oficial de la asignatura
+│   └── docs/          # Apuntes de estudio por unidad/tema y talleres SQL
+├── databases/         # Migraciones Supabase (punto-1, punto-2)
+└── src/               # App React (Vite + TS)
 ```
 
-- Los apuntes de estudio van en `docs/`.
+- Los apuntes de estudio van en `curso/docs/`.
 - Un archivo `.md` por tema/unidad, con nombres descriptivos
-  (ej: `docs/unidad-1-sgbd.md`).
-- Un `docs/README.md` opcional puede servir de índice de la documentación.
+  (ej: `curso/docs/unidad-1-sgbd.md`).
+- `curso/docs/README.md` sirve de índice de la documentación de clase.
+
+## Convenciones de la app (examen final)
+
+- Plan y estado: [docs/PLAN.md](docs/PLAN.md) y [CLAUDE.md](CLAUDE.md).
+- Arquitectura: [docs/arquitectura.md](docs/arquitectura.md).
+- Cada componente = 3 archivos: `X.tsx`, `X.module.css`, `X.types.ts`.
+- Estilos solo con variables de `src/theme/` (`var(--…)`); nada de colores/px fijos en CSS modules.
+- Capas: `features` (UI) → `services` (casos de uso) → `domain` (reglas puras) + `data` (ORM sobre supabase-js).
+- UI y documentación en español; identificadores de código en inglés.
 
 ## Reglas de documentación (markdown)
 
@@ -49,7 +66,7 @@ base-de-datos/
 
 - Los diagramas conceptuales (modelo E/R, arquitectura, flujos, etc.) se
   dibujan con **Excalidraw** usando archivos `.excalidraw`.
-- Carpeta sugerida: `diagrams/` dentro de `docs/` o la raíz.
+- Carpeta sugerida: `curso/docs/diagrams/`.
 - Regla de estilo visual: usar un solo color de borde para elementos del mismo
   tipo, fondo blanco, tipografía legible y texto en español.
 - Cada diagrama se referencia desde el `.md` correspondiente con un enlace
@@ -59,17 +76,17 @@ base-de-datos/
 
 ## Flujo de trabajo recomendado
 
-1. **Leer** `AGENTS.md` y el fragmento relevante de `syllabus.md`.
-2. Verificar si ya existe documentación del tema en `docs/`.
+1. **Leer** `AGENTS.md` y el fragmento relevante de `curso/syllabus.md`.
+2. Verificar si ya existe documentación del tema en `curso/docs/`.
 3. Crear o actualizar la documentación siguiendo estas convenciones.
 4. Para diagramas, usar Excalidraw y exportar SVG.
 5. Enlazar con unidades relacionadas.
 
 ## Recordatorios
 
-- No eliminar ni modificar `syllabus.md` (es la fuente oficial).
+- No eliminar ni modificar `curso/syllabus.md` (es la fuente oficial).
 - Mantener la consistencia de nombres y estilos entre archivos.
-- Si una versión nueva del syllabus cambia temas, reflejarlo en `docs/README.md`.
+- Si una versión nueva del syllabus cambia temas, reflejarlo en `curso/docs/README.md`.
 
 ## Normas de la asignatura
 
