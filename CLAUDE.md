@@ -26,7 +26,7 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - [x] Fase 0 — Reestructura + documentación
 - [x] Fase 1 — Scaffold Vite/React/TS
 - [x] Fase 2 — Tema + kit UI
-- [ ] Fase 3 — Shell + navegación global
+- [x] Fase 3 — Shell + navegación global
 - [ ] Fase 4 — Capa de datos (ORM)
 - [ ] Fase 5 — Punto 2 (BD ⏸ credenciales proyecto 2)
 - [ ] Fase 6 — Punto 1 (BD ⏸ credenciales proyecto 1)
@@ -52,6 +52,8 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - Preguntas abiertas: [docs/preguntas-abiertas.md](docs/preguntas-abiertas.md).
 
 ## Bitácora
+
+- **2026-10-04 — Fase 3:** `src/router.tsx` (createBrowserRouter; `/`, `/punto-1/*`, `/punto-2`, `/punto-3`, 404, `/ui` solo dev). `src/layout/` con AppShell, GlobalNav (píldoras con NavLink activo), Footer negro, SectionHeader y `navigation.ts` (EXAM_POINTS, fuente única de los 3 puntos). Inicio en `features/home/HomePage`. Páginas provisionales `features/shared/PointPlaceholder` (indican la fase pendiente) y `NotFound`. Tests de rutas (10 en total) en verde.
 
 - **2026-10-04 — Fase 2:** `src/theme/` (tokens.ts, applyTheme.ts → variables `--color-*`, `--space-*`, `--radius-*`, `--border-*`, `--shadow-*`, `--size-*`, `--type-*`, `--motion-*`, `--z-*`; global.css). 17 componentes en `src/ui/` (Button, Chip, Card, Input, TextArea, Select, DataTable, Tabs, NavBar, SideNav, Badge, Modal, Toast, CodeBlock, EmptyState, Stat, Stepper) + barrel. Página `/ui` (solo en dev) en `src/features/ui-showcase/`. Tests: tema + render del showcase. Guardas OK (sin hex/px en CSS modules, 3 archivos por componente, todas las variables definidas).
 

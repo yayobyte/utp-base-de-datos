@@ -77,3 +77,9 @@ use a file for the general typography and design system configuration so common 
 - `src/theme/tokens.ts` con los valores de DESIGN.md → variables CSS vía `applyTheme()`.
 - 17 elementos en `src/ui/` (3 archivos cada uno) y página de muestra en `/ui` (solo `npm run dev`).
 - Siguiente: "Ejecuta docs/PLAN.md fase 3" (shell + navegación global + inicio).
+
+### Iteración 4 — 2026-10-04: fase 3 (shell + navegación)
+
+- Navegación global simple con los 3 puntos (`src/layout/navigation.ts`), inicio con 3 tarjetas, pie negro, 404.
+- Los puntos muestran una página provisional hasta su fase (5, 6, 7).
+- Siguiente: "Ejecuta docs/PLAN.md fase 4" (capa de datos / ORM).

@@ -1,0 +1,59 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3xl);
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  padding: var(--space-3xl) 0;
+}
+
+.eyebrow {
+  font: var(--type-body-sm-strong);
+  color: var(--color-body);
+  text-transform: uppercase;
+}
+
+.headline {
+  max-width: calc(var(--size-container) * 0.7);
+  font: var(--type-display-xxl);
+}
+
+.lead {
+  max-width: calc(var(--size-container) / 2);
+  font: var(--type-body-lg);
+  font-weight: 400;
+  color: var(--color-body);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(calc(var(--size-side-nav) * 1.1), 1fr));
+  gap: var(--space-2xl);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-sm);
+}
+
+.cardEyebrow {
+  font: var(--type-body-sm-strong);
+  opacity: 0.7;
+}
+
+.cardTitle {
+  font: var(--type-display-md);
+}
+
+.cardText {
+  flex: 1;
+  margin-bottom: var(--space-lg);
+  font: var(--type-body-md);
+  opacity: 0.8;
+}

@@ -1,15 +1,8 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { UiShowcase } from '@/features/ui-showcase/UiShowcase'
+import { RouterProvider } from 'react-router-dom'
+import { router } from './router'
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<h1>Examen Final BD · IS644</h1>} />
-        {import.meta.env.DEV && <Route path="/ui" element={<UiShowcase />} />}
-      </Routes>
-    </BrowserRouter>
-  )
+  return <RouterProvider router={router} />
 }
 
 export default App

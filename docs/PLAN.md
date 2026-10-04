@@ -149,7 +149,7 @@ The current repo is a class-notes repo. It gets restructured: **the app lives at
 - `grep -rnE '#[0-9a-fA-F]{3,6}|[0-9]+px' src --include=*.module.css` returns nothing (only `var(--…)`).
 - Every `src/ui/*` folder has exactly 3 files.
 
-## Phase 3 — Shell + global navigation  ☐
+## Phase 3 — Shell + global navigation  ☑ (2026-10-04)
 
 1. Routes:
    - `/` home
