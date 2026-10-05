@@ -47,6 +47,7 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 | 2026-10-04 | BD #1 usa las variables públicas de la integración Supabase↔Vercel (`NEXT_PUBLIC_*`); `VITE_P1_*` tiene prioridad si existe. BD #2 usa `VITE_P2_*`. |
 | 2026-10-04 | BD #2 = proyecto existente `mrxycubenuuobfkqvzbt`, que ya tiene las 8 tablas DreamHome de clase en `public` (incluye `staff`, choca con el `staff` del examen). Las 11 tablas del punto 2 van en el esquema **`examen`** (+ copia en `baseline`); `run_sql` usa `search_path = examen`; `reset_data` solo toca `examen`. No se modifican las tablas de clase (opcional: RLS solo lectura para anon). |
 | 2026-10-04 | Las migraciones se prueban con PGlite (`src/test/pglite.ts`); las páginas con datos, con `pgliteSupabase` en lugar de Supabase. |
+| 2026-10-04 | BD #2 en Vercel: `P2_SUPABASE_URL` / `P2_SUPABASE_ANON_KEY` (sin prefijo) → alias explícito a `VITE_P2_*` en `vite.config.ts`. |
 | 2026-10-04 | Lint con **oxlint** (plantilla actual de Vite) en lugar de ESLint. Vite 8, React 19, TS 6. |
 
 ## Pendientes / bloqueos
@@ -55,6 +56,8 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - Preguntas abiertas: [docs/preguntas-abiertas.md](docs/preguntas-abiertas.md).
 
 ## Bitácora
+
+- **2026-10-04 — Variables BD #2 en Vercel:** Vercel no permite crear variables `VITE_*`. Se crearon `P2_SUPABASE_URL` y `P2_SUPABASE_ANON_KEY`; `vite.config.ts` las copia (lista cerrada `PUBLIC_ALIASES`, vía `define`, desactivado en Vitest) a `VITE_P2_*`. Verificado con build simulado: URLs y publishable keys de ambas BD en el bundle, ningún secreto.
 
 - **2026-10-04 — Fase 5 (punto 2):** migración `databases/punto-2/.../20261004010000_examen_dvd.sql`: esquema `examen` (11 tablas sin FKs + datos de las imágenes), `baseline` (copia), RPC `punto2_tables()`, `run_sql(text[])` (invoker/anon, search_path examen, timeout 3 s, solo SELECT/WITH/INSERT/UPDATE/DELETE, una sentencia por elemento, transacción única, DML devuelve filas afectadas) y `reset_data()` (definer). `domain/punto2/examQueries.ts` (a–e con explicación y resultado esperado, `toScript`, `toSupabaseJs`). `services/punto2/punto2Service.ts`. `data/punto2/sqlRunner.ts`: `fetchPunto2Tables` reemplaza `tableRepository` (examen no está en la Data API). UI `features/punto2/` (Punto2Page, ExamPointCard con pestañas SQL/supabase-js/Explicación y confirmación en d/e, SqlConsole con Ctrl+Enter e historial, TablesPanel plegable y fijo, ResultView). Pruebas con **PGlite** sobre la migración real: respuestas a–e (c = 51.96, d deja 3 miembros, e S0415 = 43260), seguridad (DDL rechazado, baseline inaccesible, atomicidad) y UI de punta a punta. Rutas `/punto-2` y `/estado` con carga diferida (sin aviso de chunk > 500 kB). 55 tests en verde.
 

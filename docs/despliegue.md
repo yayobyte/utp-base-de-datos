@@ -70,7 +70,17 @@ lee gracias a `envPrefix: ['VITE_', 'NEXT_PUBLIC_']` en `vite.config.ts`. Las de
 (`SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_SECRET_KEY`, `POSTGRES_*`…) **no** llegan al navegador porque no tienen
 esos prefijos.
 
-**BD #2** (y BD #1 si no se usa la integración), a mano:
+**BD #2**, a mano y **sin prefijo** (Vercel ya no permite crear variables `VITE_*`):
+
+| Variable en Vercel | Valor |
+|---|---|
+| `P2_SUPABASE_URL` | Project URL del #2 |
+| `P2_SUPABASE_ANON_KEY` | publishable key del #2 |
+
+`vite.config.ts` copia **solo** estas dos (lista cerrada `PUBLIC_ALIASES`) a `VITE_P2_SUPABASE_URL` /
+`VITE_P2_SUPABASE_ANON_KEY` durante el build. En `.env.local` sirven ambos nombres.
+
+Nombres alternativos (solo en local o si Vercel los admite):
 
 | Variable | Valor |
 |---|---|
