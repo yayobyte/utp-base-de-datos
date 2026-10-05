@@ -118,3 +118,10 @@ use a file for the general typography and design system configuration so common 
 - Se aceptaron las respuestas propuestas en preguntas-abiertas 1–5.
 - Guion de presentación en docs/especificacion-punto-1.md §9.
 - Pendiente: push (la integración GitHub ↔ Supabase aplica la migración) y prueba en producción.
+
+### Iteración 11 — 2026-10-05: prueba completa del punto 1 + guía
+
+- Pedido: recorrer todo el proceso, probarlo y dar los pasos e información por escenario.
+- Semestre completo probado en producción (Chrome, 37 pasos) → `npm run e2e:punto1`.
+- Guía paso a paso con resultados esperados y mensajes: docs/guia-pruebas-punto-1.md.
+- Correcciones: avisos de éxito que se ocultan solos; simultaneidad imposible se muestra bloqueada.

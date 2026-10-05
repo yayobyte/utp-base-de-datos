@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { DataError } from '@/data'
 
 export interface Notice {
@@ -10,9 +10,18 @@ export interface Notice {
  * Ejecuta acciones que modifican datos: muestra el resultado (aviso) y luego refresca.
  * `busy` permite deshabilitar botones mientras corre la acción.
  */
+/** Los avisos de éxito se ocultan solos; los de error quedan hasta cerrarlos. */
+export const SUCCESS_NOTICE_MS = 5000
+
 export function useRunner(refresh?: () => unknown) {
   const [busy, setBusy] = useState(false)
   const [notice, setNotice] = useState<Notice>()
+
+  useEffect(() => {
+    if (notice?.tone !== 'success') return
+    const t = setTimeout(() => setNotice(undefined), SUCCESS_NOTICE_MS)
+    return () => clearTimeout(t)
+  }, [notice])
 
   const run = useCallback(
     async <T,>(fn: () => Promise<T>, success?: string | ((r: T) => string)): Promise<T | undefined> => {

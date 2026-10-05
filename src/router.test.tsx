@@ -4,6 +4,16 @@ import { routes } from './router'
 
 const renderAt = (path: string) => render(<RouterProvider router={createMemoryRouter(routes, { initialEntries: [path] })} />)
 
+// Las rutas diferidas (lazy) se precargan: así las pruebas no dependen de la carga de la máquina.
+beforeAll(async () => {
+  await Promise.all([
+    import('@/features/punto1/Punto1Layout/Punto1Layout'),
+    import('@/features/punto2/Punto2Page/Punto2Page'),
+    import('@/features/punto3/Punto3Page/Punto3Page'),
+    import('@/features/estado/StatusPage/StatusPage'),
+  ])
+}, 30_000)
+
 describe('router', () => {
   it('muestra el inicio con los tres puntos', () => {
     renderAt('/')

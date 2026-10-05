@@ -128,6 +128,8 @@ regla de la semana 8 · fórmula del promedio integral · transiciones de estado
 
 ## 9. Guion sugerido para la presentación
 
+> Guion detallado, con resultados esperados verificados en producción y la tabla de mensajes: **[guia-pruebas-punto-1.md](guia-pruebas-punto-1.md)**.
+
 1. **Laura (Admin) → Calendario:** aprobar calendario, avanzar a *Prematrícula*.
 2. **Juan → Prematrícula:** mostrar IS301 bloqueada por IS202 (2.5); elegir IS202 e IS302.
 3. Prematricular a los demás (Ana: IS301, IS302, IS303; Sofía: IS201, IS301; Mateo: IS301, IS302; Valentina: IS301, IS303; Samuel: IS401–IS403).

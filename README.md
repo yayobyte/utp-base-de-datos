@@ -16,6 +16,7 @@ Aplicación web que resuelve los tres puntos del examen final
 
 - [Plan ejecutable por fases](docs/PLAN.md) · [Memoria del agente](CLAUDE.md) · [Convenciones](AGENTS.md)
 - [Arquitectura](docs/arquitectura.md) · [Despliegue](docs/despliegue.md) · [Preguntas abiertas](docs/preguntas-abiertas.md)
+- **[Guía de prueba y presentación del punto 1](docs/guia-pruebas-punto-1.md)** · prueba automática: `npm run e2e:punto1`
 - Especificaciones: [Punto 1](docs/especificacion-punto-1.md) · [Punto 2](docs/especificacion-punto-2.md) · [Punto 3](docs/especificacion-punto-3.md)
 
 ## Material de clase

@@ -33,7 +33,7 @@ export function opcionesPrematricula(
 ): OpcionPrematricula[] {
   const ok = aprobadas(historial)
   const notas = mejoresNotas(historial)
-  return plan
+  const opciones = plan
     .filter((a) => !ok.has(a.cod_asignatura))
     .map((asignatura) => {
       const reqs = requisitos.filter((r) => r.cod_asignatura === asignatura.cod_asignatura)
@@ -45,9 +45,18 @@ export function opcionesPrematricula(
           .join(', ')
         return { asignatura, elegible: false, motivo: `Prerrequisito sin aprobar: ${detalle}`, simultaneas }
       }
-      return { asignatura, elegible: true, simultaneas }
+      return { asignatura, elegible: true, simultaneas } as OpcionPrematricula
     })
-    .sort((a, b) => Number(b.elegible) - Number(a.elegible) || a.asignatura.semestre - b.asignatura.semestre)
+  // Una simultaneidad que el estudiante no puede tomar bloquea también a la asignatura que la exige.
+  const bloqueadas = new Set(opciones.filter((o) => !o.elegible).map((o) => o.asignatura.cod_asignatura))
+  for (const o of opciones) {
+    const imposibles = o.simultaneas.filter((s) => bloqueadas.has(s))
+    if (o.elegible && imposibles.length) {
+      o.elegible = false
+      o.motivo = `Requiere cursar ${imposibles.join(', ')} simultáneamente, y no la puedes tomar`
+    }
+  }
+  return opciones.sort((a, b) => Number(b.elegible) - Number(a.elegible) || a.asignatura.semestre - b.asignatura.semestre)
 }
 
 /** Valida una selección: solo elegibles y con sus simultaneidades incluidas. Devuelve errores (vacío = ok). */

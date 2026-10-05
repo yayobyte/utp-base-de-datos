@@ -99,6 +99,15 @@ describe('prematrícula', () => {
     expect(byCod.IS301).toMatchObject({ elegible: false, motivo: 'Prerrequisito sin aprobar: IS202 (nota 2.5)' })
   })
 
+  it('si la simultaneidad está bloqueada, la asignatura también', () => {
+    // Juan: IS301 bloqueada (IS202 = 2.5) → IS303 (exige IS301 simultánea) también
+    const ops = opcionesPrematricula(PLAN, REQ, hist('E002', { IS101: 3.5, IS201: 3.1, IS202: 2.5 }))
+    expect(ops.find((o) => o.asignatura.cod_asignatura === 'IS303')).toMatchObject({
+      elegible: false,
+      motivo: 'Requiere cursar IS301 simultáneamente, y no la puedes tomar',
+    })
+  })
+
   it('exige cursar la simultaneidad en el mismo periodo', () => {
     const ops = opcionesPrematricula(PLAN, REQ, hist('E001', { IS101: 4.2, IS201: 4.0, IS202: 4.5 }))
     expect(validarSeleccion(['IS303'], ops)).toEqual(['IS303 requiere cursar IS301 simultáneamente'])
