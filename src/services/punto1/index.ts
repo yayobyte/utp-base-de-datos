@@ -1,0 +1,5 @@
+export { adminService, MOTIVO_NO_PAGO } from './adminService'
+export { calendarioActual, personas, reiniciarDemo } from './contexto'
+export { docenteService } from './docenteService'
+export type { FormaNueva } from './docenteService'
+export { estudianteService } from './estudianteService'

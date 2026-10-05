@@ -92,7 +92,52 @@ uno que no paga, uno con muchos créditos).
 Filtro de elegibilidad · orden de asignación y detección de cruces · llenado secuencial de grupos ·
 regla de la semana 8 · fórmula del promedio integral · transiciones de estado.
 
-## 8. Preguntas de repaso
+## 8. Implementación
+
+| Capa | Archivo(s) |
+|---|---|
+| Migración (tablas, subclases, vistas, funciones, datos demo) | [`databases/punto-1/supabase/migrations/20261005000000_registro_notas.sql`](../databases/punto-1/supabase/migrations/20261005000000_registro_notas.sql) |
+| Reglas de negocio (puras) | `src/domain/punto1/`: `permisos.ts` (rol × fase), `prematricula.ts`, `asignacion.ts`, `cancelacion.ts`, `evaluacion.ts`, `cierre.ts`, `fases.ts` |
+| Datos (ORM) | `src/data/punto1/repositories.ts` (un `Repository` por tabla/vista) + RPC `reiniciar_demo`, `cambiar_estado` |
+| Casos de uso | `src/services/punto1/`: `adminService`, `estudianteService`, `docenteService` |
+| Suplantación | `src/state/impersonationStore.ts` (Zustand, persistido) |
+| UI | `src/features/punto1/`: `Punto1Layout` (PersonaSwitcher, PhaseBanner, RoleNav) + 17 páginas de acción (`admin/`, `estudiante/`, `docente/`) |
+
+**Base de datos (BD #1):**
+- Especialización de `persona` por `rol`; especialización **total y disjunta** del estudiante por `estado` con subtablas
+  `estudiante_prueba`, `estudiante_transicion`, `estudiante_fuera` (incluye `hasta_periodo` = «fuera por un semestre»).
+  `cambiar_estado()` mueve al estudiante de subclase en una sola transacción.
+- Atributos derivados en la vista `v_estudiante_resumen` (promedio integral y créditos), con la misma fórmula que `cierre.ts`.
+- Vistas `v_grupo_detalle` y `v_solicitud_detalle` para leer horarios sin consultas anidadas.
+- `reiniciar_demo()` restaura el escenario inicial (botón en *Calendario* del Admin).
+
+**Datos de demostración:** 10 asignaturas (IS101–IS403) con prerrequisitos y una simultaneidad (IS303 ↔ IS301),
+6 franjas, cupos de 2–3 para que se formen varios grupos, 1 admin (Laura Ortiz), 3 docentes y 6 estudiantes:
+
+| Estudiante | Escenario |
+|---|---|
+| E001 Ana Martínez | En bloque (máxima prioridad) |
+| E002 Juan Pérez | Perdió IS202 (2.5) → IS301 bloqueada |
+| E003 Sofía Ramírez | En prueba (1 periodo); perdió IS201 → IS302 bloqueada |
+| E004 Mateo Gómez | Semestre de transición (plan anterior P2019) |
+| E005 Valentina Cruz | Caso «no paga» → retirada; luego matrícula extemporánea |
+| E006 Samuel Torres | Más créditos (25) → segundo en prioridad |
+
+**Pruebas:** reglas puras (`punto1.test.ts`), semestre completo de punta a punta sobre la migración real
+(`services/punto1/semestre.test.ts`, PGlite + adaptador tipo PostgREST) y la UI (`Punto1Layout.test.tsx`).
+
+## 9. Guion sugerido para la presentación
+
+1. **Laura (Admin) → Calendario:** aprobar calendario, avanzar a *Prematrícula*.
+2. **Juan → Prematrícula:** mostrar IS301 bloqueada por IS202 (2.5); elegir IS202 e IS302.
+3. Prematricular a los demás (Ana: IS301, IS302, IS303; Sofía: IS201, IS301; Mateo: IS301, IS302; Valentina: IS301, IS303; Samuel: IS401–IS403).
+4. **Admin → Pago:** todos pagan menos Valentina. **Asignación:** *Retirar no pagados* y *Ejecutar asignación*: orden de prioridad, grupos 1 y 2 de IS301, rechazo por cruce de IS302.
+5. **Ajustes:** el Admin asigna docentes (cruce bloqueado); un estudiante cambia o retira; Valentina paga extemporáneo.
+6. **Evaluación:** Carlos (docente) define 30/30/40, registra notas y asistencia, seguimiento de Mateo (transición). Semana 9: un estudiante cancela una sola asignatura.
+7. **Cierre:** el Admin cierra el semestre y se ven los cambios de estado (p. ej. Sofía sigue en prueba, Mateo pasa a normal).
+8. **Reiniciar demostración** para dejarlo listo.
+
+## 10. Preguntas de repaso
 
 1. ¿Por qué el estado del estudiante es una especialización **total y disjunta**?
 2. ¿Cómo se representa la relación recursiva de requisitos entre asignaturas?

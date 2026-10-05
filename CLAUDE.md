@@ -29,7 +29,7 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - [x] Fase 3 — Shell + navegación global
 - [x] Fase 4 — Capa de datos (ORM)
 - [x] Fase 5 — Punto 2 (PostgreSQL en el navegador; sin BD remota)
-- [ ] Fase 6 — Punto 1 (BD ⏸ credenciales proyecto 1)
+- [x] Fase 6 — Punto 1 (migración pendiente de push → integración GitHub la aplica)
 - [x] Fase 7 — Punto 3 normalización
 - [ ] Fase 8 — Integración GitHub↔Supabase + Vercel (repo listo; faltan pasos del usuario en dashboards)
 
@@ -48,14 +48,17 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 | 2026-10-04 | BD #2 = proyecto existente `mrxycubenuuobfkqvzbt`, que ya tiene las 8 tablas DreamHome de clase en `public` (incluye `staff`, choca con el `staff` del examen). Las 11 tablas del punto 2 van en el esquema **`examen`** (+ copia en `baseline`); `run_sql` usa `search_path = examen`; `reset_data` solo toca `examen`. No se modifican las tablas de clase (opcional: RLS solo lectura para anon). |
 | 2026-10-04 | Las migraciones se prueban con PGlite (`src/test/pglite.ts`); las páginas con datos, con `pgliteSupabase` en lugar de Supabase. |
 | 2026-10-04 | Punto 2 sin Supabase: PostgreSQL en el navegador (PGlite) con las migraciones de `databases/punto-2`. Solo la BD #1 es remota (integración GitHub↔Supabase). |
+| 2026-10-05 | Punto 1 con las respuestas propuestas en preguntas-abiertas 1–5 (Admin = Director, sin auth real, semana simulada por Admin, «fuera por un semestre» = `hasta_periodo`, `en_bloque` como indicador). |
 | 2026-10-04 | Lint con **oxlint** (plantilla actual de Vite) en lugar de ESLint. Vite 8, React 19, TS 6. |
 
 ## Pendientes / bloqueos
 
-- ✅ BD #1 desplegada y conectada. Usuario: crear proyecto Supabase #2, conectar GitHub (working dirs `databases/punto-1|2`), importar en Vercel con las 4 variables `VITE_*` — ver docs/despliegue.md. Luego verificar `/estado`.
+- ✅ BD #1 desplegada y conectada. Push pendiente con la migración del punto 1. Usuario: crear proyecto Supabase #2, conectar GitHub (working dirs `databases/punto-1|2`), importar en Vercel con las 4 variables `VITE_*` — ver docs/despliegue.md. Luego verificar `/estado`.
 - Preguntas abiertas: [docs/preguntas-abiertas.md](docs/preguntas-abiertas.md).
 
 ## Bitácora
+
+- **2026-10-05 — Fase 6 (punto 1):** migración `20261005000000_registro_notas.sql` (persona/rol, estudiante + subtablas prueba/transición/fuera, plan, requisitos recursivos, calendario con fase y semana, franjas, programación, matrícula, grupo, solicitud, evaluación, notas, asistencia, seguimiento; vistas `v_estudiante_resumen`, `v_grupo_detalle`, `v_solicitud_detalle`; funciones `cambiar_estado`, `cargar_datos_demo`, `reiniciar_demo`; datos demo). Dominio `src/domain/punto1/*` (permisos rol×fase, prematrícula con prerrequisitos/simultaneidades, asignación por prioridad sin cruces con grupos secuenciales, cancelación semana 8, evaluación, cierre y matriz de estados). `Repository.findIn/upsert`, `data/rpc.ts`, `data/punto1/repositories.ts`. Servicios admin/estudiante/docente. UI `features/punto1/` (Punto1Layout + PersonaSwitcher + PhaseBanner + RoleNav + ActionShell + 17 páginas). Adaptador `src/test/pgliteSupabase.ts` (supabase-js → SQL sobre PGlite) y `pglite.ts` con tipos PostgREST. Pruebas: dominio, semestre completo de punta a punta y UI. 95 tests en verde; `chunkSizeWarningLimit` 650 (PGlite, diferido). Pendiente: push para que la integración aplique la migración y prueba E2E en producción.
 
 - **2026-10-04 — Fase 7 (punto 3):** `domain/punto3/normalizacion.ts` calcula 0FN→1FN→2FN→3FN desde las filas (separa autores por «y»/«,», apellidos/nombre por coma; catálogos E/A/L con ids por orden de aparición; marca PK/FK, referencias y columnas cambiadas). `state/normalizacionStore.ts` (Zustand: paso + filas editables). UI `features/punto3/`: Stepper + anterior/siguiente, StepView (explicación, cambios, dependencias, antes/después), NfTableCard (cabeceras «Col · PK/FK», subrayado = cambio), SchemaDiagram (3FN), SourceEditor (sandbox plegable). Ruta `/punto-3` diferida. `testTimeout` 15 s en Vitest (PGlite + rutas diferidas en paralelo). 67 tests en verde; verificado en Chrome (sin errores, sin scroll horizontal a 375 px).
 

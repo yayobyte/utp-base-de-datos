@@ -7,3 +7,6 @@ export { fetchPunto2Tables, PUNTO2_TABLES, resetData, runScript, runSql, splitSt
 export type { Punto2Table, Punto2Tables } from './punto2/sqlRunner'
 export { checkHealth } from './health'
 export type { HealthReport } from './health'
+export { callRpc } from './rpc'
+export { p1, p1Rpc } from './punto1/repositories'
+export type { CambioEstado } from './punto1/repositories'

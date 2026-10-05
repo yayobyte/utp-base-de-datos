@@ -1,0 +1,8 @@
+.subtitle {
+  font: var(--type-body-md-strong);
+}
+
+.muted {
+  font: var(--type-caption);
+  color: var(--color-body);
+}

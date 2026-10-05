@@ -36,6 +36,17 @@ export class Repository<T extends Row> {
     return (data ?? []) as unknown as T[]
   }
 
+  /** Filas cuya columna está en la lista (WHERE col IN (...)). */
+  async findIn(column: keyof T & string, values: unknown[], options: FindOptions<T> = {}): Promise<T[]> {
+    if (values.length === 0) return []
+    let query = this.from().select(options.select ?? '*').in(column, values as never[])
+    const orders = options.orderBy ? (Array.isArray(options.orderBy) ? options.orderBy : [options.orderBy]) : []
+    for (const o of orders) query = query.order(o.column, { ascending: o.ascending ?? true })
+    const { data, error } = await query
+    if (error) throw DataError.from(error)
+    return (data ?? []) as unknown as T[]
+  }
+
   async findOne(filters: Filters<T>, options: Omit<FindOptions<T>, 'limit'> = {}): Promise<T | null> {
     const rows = await this.findBy(filters, { ...options, limit: 1 })
     return rows[0] ?? null
@@ -59,6 +70,15 @@ export class Repository<T extends Row> {
 
   async insert(values: Partial<T> | Partial<T>[]): Promise<T[]> {
     const { data, error } = await this.from().insert(values as Row | Row[]).select()
+    if (error) throw DataError.from(error)
+    return (data ?? []) as unknown as T[]
+  }
+
+  /** Inserta o actualiza según la llave indicada (`onConflict`: columnas separadas por coma). */
+  async upsert(values: Partial<T> | Partial<T>[], onConflict: string): Promise<T[]> {
+    const { data, error } = await this.from()
+      .upsert(values as Row | Row[], { onConflict })
+      .select()
     if (error) throw DataError.from(error)
     return (data ?? []) as unknown as T[]
   }

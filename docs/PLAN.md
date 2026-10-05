@@ -228,7 +228,7 @@ The current repo is a class-notes repo. It gets restructured: **the app lives at
 
 **Verify:** run a–e against the deployed DB. c = 51.96, b = 1 not-returned row, d leaves 3 members, e gives S0415 = 43260. Then reset.
 
-## Phase 6 — Point 1 DB + system  ☐ (DB part ⏸ BLOCKED on project-1 credentials/linking)
+## Phase 6 — Point 1 DB + system  ☑ (2026-10-05 · migración se despliega con el próximo push)
 
 **Model (merge).** Use the tables from `curso/docs/punto-1-modelado-utp.md`:
 - persona → estudiante | docente | administrativo

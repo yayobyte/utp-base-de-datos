@@ -20,6 +20,10 @@ export default defineConfig({
   define: {
     __BUILD_INFO__: JSON.stringify(buildInfo),
   },
+  build: {
+    // El chunk más grande (~590 kB) es PGlite y solo se descarga al abrir /punto-2 (import dinámico).
+    chunkSizeWarningLimit: 650,
+  },
   // PGlite (PostgreSQL en WebAssembly, punto 2) carga sus .wasm/.data por su cuenta: no pre-empaquetar.
   optimizeDeps: {
     exclude: ['@electric-sql/pglite'],

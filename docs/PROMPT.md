@@ -111,3 +111,10 @@ use a file for the general typography and design system configuration so common 
 
 - Normalización paso a paso 0FN → 3FN calculada desde los datos, con antes/después, dependencias funcionales, esquema final y modo sandbox para editar la tabla original.
 - Siguiente: fase 6 (punto 1, BD #1). Conviene responder antes las preguntas 1–5 de docs/preguntas-abiertas.md.
+
+### Iteración 10 — 2026-10-05: fase 6 (punto 1)
+
+- Sistema de registro de notas completo sobre la BD #1: suplantación (Admin, docentes, estudiantes), navegación por rol y fase, 17 acciones, datos de demostración y botón para reiniciar.
+- Se aceptaron las respuestas propuestas en preguntas-abiertas 1–5.
+- Guion de presentación en docs/especificacion-punto-1.md §9.
+- Pendiente: push (la integración GitHub ↔ Supabase aplica la migración) y prueba en producción.

@@ -1,0 +1,40 @@
+.shell {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-width: 0;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xxs);
+}
+
+.title {
+  font: var(--type-display-md);
+}
+
+.description {
+  font: var(--type-body-md);
+  color: var(--color-body);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.muted {
+  font: var(--type-body-sm);
+  color: var(--color-body);
+}

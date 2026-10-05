@@ -1,0 +1,6 @@
+.form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(calc(var(--size-side-nav) * 0.6), 1fr));
+  align-items: end;
+  gap: var(--space-md);
+}

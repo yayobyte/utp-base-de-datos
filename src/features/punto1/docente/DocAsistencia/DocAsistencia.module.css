@@ -1,0 +1,11 @@
+.row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(calc(var(--size-side-nav) * 0.8), 1fr));
+  align-items: end;
+  gap: var(--space-md);
+}
+
+.chips {
+  display: inline-flex;
+  gap: var(--space-xs);
+}

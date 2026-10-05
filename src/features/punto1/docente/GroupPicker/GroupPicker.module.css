@@ -1,0 +1,4 @@
+.muted {
+  font: var(--type-body-sm);
+  color: var(--color-body);
+}

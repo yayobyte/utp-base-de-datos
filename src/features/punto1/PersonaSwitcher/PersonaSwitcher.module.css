@@ -1,0 +1,31 @@
+.switcher {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  border-radius: var(--radius-xl);
+  background: var(--color-canvas-soft);
+}
+
+.label {
+  width: 100%;
+  font: var(--type-body-sm-strong);
+}
+
+.group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.groupLabel {
+  font: var(--type-caption);
+  color: var(--color-body);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}

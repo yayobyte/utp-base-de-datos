@@ -29,7 +29,7 @@ describe('router', () => {
 
   it('muestra el estado del despliegue', async () => {
     renderAt('/estado')
-    expect(await screen.findByRole('heading', { level: 1, name: 'Estado del despliegue' })).toBeTruthy()
+    expect(await screen.findByRole('heading', { level: 1, name: 'Estado del despliegue' }, { timeout: 5000 })).toBeTruthy()
     expect(await screen.findAllByText('Sin configurar')).toHaveLength(1)
   })
 

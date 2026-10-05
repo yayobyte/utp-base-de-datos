@@ -1,0 +1,27 @@
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-2xl);
+}
+
+.nav {
+  flex: 1 1 calc(var(--size-side-nav) * 0.9);
+  max-width: var(--size-side-nav);
+}
+
+.content {
+  flex: 4 1 calc(var(--size-container) / 2);
+  min-width: 0;
+}
+
+.muted {
+  font: var(--type-body-sm);
+  color: var(--color-body);
+}

@@ -1,0 +1,12 @@
+.rule {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  font: var(--type-body-md-strong);
+}
+
+.rule span {
+  font: var(--type-body-sm);
+  color: var(--color-body);
+}

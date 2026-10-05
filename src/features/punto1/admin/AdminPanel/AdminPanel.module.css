@@ -1,0 +1,10 @@
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(calc(var(--size-side-nav) * 0.55), 1fr));
+  gap: var(--space-md);
+}
+
+.subtitle {
+  margin-top: var(--space-md);
+  font: var(--type-body-md-strong);
+}

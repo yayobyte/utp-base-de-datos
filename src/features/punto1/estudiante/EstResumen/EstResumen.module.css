@@ -1,0 +1,18 @@
+.estado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+  font: var(--type-body-md-strong);
+}
+
+.estado span {
+  font: var(--type-body-sm);
+  color: var(--color-body);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(calc(var(--size-side-nav) * 0.8), 1fr));
+  gap: var(--space-md);
+}

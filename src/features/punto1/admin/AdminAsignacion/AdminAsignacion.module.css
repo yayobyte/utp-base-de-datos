@@ -1,0 +1,11 @@
+.orden {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+  font: var(--type-body-sm-strong);
+}
+
+.subtitle {
+  font: var(--type-body-md-strong);
+}

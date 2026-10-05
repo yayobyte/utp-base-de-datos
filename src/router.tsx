@@ -1,12 +1,9 @@
 import { createBrowserRouter, type RouteObject } from 'react-router-dom'
 import { HomePage } from '@/features/home/HomePage/HomePage'
 import { NotFound } from '@/features/shared/NotFound/NotFound'
-import { PointPlaceholder } from '@/features/shared/PointPlaceholder/PointPlaceholder'
 import { UiShowcase } from '@/features/ui-showcase/UiShowcase'
 import { AppShell } from '@/layout/AppShell/AppShell'
 import { EXAM_POINTS } from '@/layout/navigation'
-
-const [punto1] = EXAM_POINTS
 
 export const routes: RouteObject[] = [
   {
@@ -14,8 +11,11 @@ export const routes: RouteObject[] = [
     element: <AppShell points={EXAM_POINTS} />,
     children: [
       { index: true, element: <HomePage points={EXAM_POINTS} /> },
-      // El punto 1 tendrá su propio layout y subrutas (fase 6).
-      { path: 'punto-1/*', element: <PointPlaceholder point={punto1} phase={6} /> },
+      {
+        // El punto 1 tiene su propio layout y navegación; la acción activa va en la URL (/punto-1/est-resumen…).
+        path: 'punto-1/*',
+        lazy: () => import('@/features/punto1/Punto1Layout/Punto1Layout').then((m) => ({ Component: m.Punto1Layout })),
+      },
       {
         path: 'punto-2',
         // Carga diferida: supabase-js y la página del punto 2 solo se descargan al entrar.

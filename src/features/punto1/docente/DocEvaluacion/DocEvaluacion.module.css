@@ -1,0 +1,40 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  padding: var(--space-xs);
+  text-align: left;
+  font: var(--type-body-sm-strong);
+}
+
+.table td {
+  padding: var(--space-xxs);
+}
+
+.input {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-hairline) solid var(--color-mute);
+  border-radius: var(--radius-md);
+  background: var(--color-canvas);
+  font: var(--type-body-sm);
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--color-ink);
+}
+
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.error {
+  font: var(--type-body-sm-strong);
+  color: var(--color-status-danger);
+}
