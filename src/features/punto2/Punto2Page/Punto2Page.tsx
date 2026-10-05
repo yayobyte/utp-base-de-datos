@@ -5,7 +5,7 @@ import { useAsync } from '@/hooks/useAsync'
 import { EXAM_POINTS } from '@/layout/navigation'
 import { SectionHeader } from '@/layout/SectionHeader/SectionHeader'
 import { punto2Service } from '@/services/punto2/punto2Service'
-import { Badge, Button, Chip, Modal, Toast } from '@/ui'
+import { Badge, Button, Modal, Toast } from '@/ui'
 import { ExamPointCard } from '../ExamPointCard/ExamPointCard'
 import { SqlConsole } from '../SqlConsole/SqlConsole'
 import { TablesPanel } from '../TablesPanel/TablesPanel'
@@ -15,7 +15,7 @@ import type { Notice, Punto2PageProps } from './Punto2Page.types'
 const POINT = EXAM_POINTS.find((p) => p.id === 'punto-2')!
 const EYEBROW = `Punto ${POINT.number} · ${POINT.shortLabel}`
 const DESCRIPTION =
-  'Base de datos StayHome en PostgreSQL real, ejecutándose en tu navegador. Ejecuta cada respuesta, revisa el SQL y su explicación, o escribe tus propias consultas. Las tablas se actualizan tras cada ejecución.'
+  'Base de datos StayHome en PostgreSQL real, ejecutándose en tu navegador. Escribe consultas en la consola o abre una pregunta del examen para ver y ejecutar su SQL. Las tablas se actualizan tras cada ejecución.'
 
 /** Página del punto 2: PostgreSQL (PGlite) en el navegador, con las mismas migraciones de databases/punto-2. */
 export function Punto2Page({ initialScript = 'SELECT * FROM dvd;' }: Punto2PageProps) {
@@ -86,21 +86,15 @@ export function Punto2Page({ initialScript = 'SELECT * FROM dvd;' }: Punto2PageP
         </div>
       )}
 
-      <nav className={styles.jump} aria-label="Ir a una pregunta">
-        {EXAM_QUERIES.map((q) => (
-          <Chip key={q.id} onClick={() => document.getElementById(`punto-${q.id}`)?.scrollIntoView?.({ behavior: 'smooth' })}>
-            Punto {q.id}
-          </Chip>
-        ))}
-        <Chip onClick={() => document.getElementById('consola')?.scrollIntoView?.({ behavior: 'smooth' })}>Consola SQL</Chip>
-      </nav>
-
       <div className={styles.layout}>
         <div className={styles.main}>
-          {EXAM_QUERIES.map((q) => (
-            <ExamPointCard key={q.id} query={q} onRun={runExamPoint} onOpenInConsole={openInConsole} />
-          ))}
           <SqlConsole value={script} onChange={setScript} onRun={runConsole} />
+          <section className={styles.points} aria-label="Preguntas del examen">
+            <h2 className={styles.pointsTitle}>Preguntas del examen</h2>
+            {EXAM_QUERIES.map((q) => (
+              <ExamPointCard key={q.id} query={q} onRun={runExamPoint} onOpenInConsole={openInConsole} />
+            ))}
+          </section>
         </div>
         <div className={styles.side}>
           <TablesPanel tables={tables.data} loading={tables.loading} error={tables.error} onReload={() => void tables.reload()} />

@@ -105,13 +105,26 @@ export const EXAM_QUERIES: ExamQuery[] = [
   },
 ]
 
-/** Script de una pregunta, tal como se pega en la consola SQL. */
-export function toScript(query: ExamQuery): string {
-  return query.statements.map((s) => `${s};`).join('\n\n')
+/** Parte un texto en líneas de máximo `width` caracteres (caben en la consola sin saltos extra) (para comentarios SQL legibles). */
+function wrap(text: string, width = 64): string[] {
+  const lines: string[] = []
+  let line = ''
+  for (const word of text.split(/\s+/)) {
+    if (line && line.length + word.length + 1 > width) {
+      lines.push(line)
+      line = word
+    } else {
+      line = line ? `${line} ${word}` : word
+    }
+  }
+  if (line) lines.push(line)
+  return lines
 }
 
-/** Llamada equivalente con supabase-js (así la ejecuta la app). */
-export function toSupabaseJs(query: ExamQuery): string {
-  const list = query.statements.map((s) => `    \`${s.replace(/`/g, '\\`')}\``).join(',\n')
-  return `const { data, error } = await supabase.rpc('run_sql', {\n  statements: [\n${list},\n  ],\n})\n// data → { rows: [...], rowCount }`
+/** Script de una pregunta, tal como se pega en la consola SQL: la pregunta como comentario y luego el SQL. */
+export function toScript(query: ExamQuery): string {
+  const [first, ...rest] = wrap(query.question)
+  const header = [`-- ${query.id}. ${first}`, ...rest.map((l) => `--    ${l}`)].join('\n')
+  return `${header}\n${query.statements.map((s) => `${s};`).join('\n\n')}`
 }
+

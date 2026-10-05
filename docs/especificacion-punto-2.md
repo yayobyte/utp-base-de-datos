@@ -62,8 +62,8 @@ Los datos completos están en la migración (transcritos de las imágenes).
 ## 2. Interfaz
 
 - **Panel de tablas:** todas las tablas siempre visibles (tarjetas plegables con su número de filas); se recargan después de cada ejecución.
-- **Puntos del examen (a–e):** cada tarjeta muestra la pregunta, el SQL, el equivalente en supabase-js, la explicación, el resultado y un botón **Ejecutar**. Los puntos d y e piden confirmación y ofrecen **Restablecer datos**.
-- **Consola SQL:** SQL real (varias sentencias separadas por `;` al final de línea), Ctrl+Enter para ejecutar, tabla de resultados, tiempo de ejecución e historial de las últimas 10 consultas.
+- **Preguntas del examen (a–e):** plegadas debajo de la consola. Al abrir una se ve su SQL con la pregunta como comentario (`-- c. ¿Cuánto gana…`), **Ejecutar** y **Abrir en la consola**. Los puntos d y e piden confirmación; **Restablecer datos** está en la cabecera.
+- **Consola SQL (bloque principal, arriba):** SQL real (varias sentencias separadas por `;` al final de línea), Ctrl+Enter para ejecutar, tabla de resultados, tiempo de ejecución e historial de las últimas 10 consultas.
 
 ## 3. Respuestas
 

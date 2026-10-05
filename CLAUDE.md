@@ -57,6 +57,8 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 
 ## Bitácora
 
+- **2026-10-04 — Punto 2, ajuste de UI (pedido del usuario):** la consola SQL es el bloque principal (arriba); las preguntas a–e van plegadas (`<details>`) debajo; se quitan las pestañas supabase-js y Explicación (y `toSupabaseJs`). El SQL de cada pregunta lleva la pregunta como comentario (`toScript`, líneas de 64 caracteres). Verificado en Chrome: preguntas cerradas al cargar, c = 51.96, el script comentado corre en la consola (7 filas).
+
 - **2026-10-04 — Punto 2 en el navegador (decisión del usuario: sin migraciones en la BD #2):** `src/data/punto2/localDb.ts` arranca PGlite (import dinámico), aplica las migraciones `databases/punto-2/...` (`?raw`) y ejecuta como `anon`; `sqlRunner` usa `callLocal` en lugar de `supabase.rpc`. `@electric-sql/pglite` pasa a dependencia; `optimizeDeps.exclude`. Se quitan: GitHub Action de la BD #2, alias `P2_*` de `vite.config.ts`, `src/test/pgliteSupabase.ts`, guardia de credenciales del punto 2 y la tarjeta BD #2 de `/estado`. Verificado en Chrome real (Puppeteer) con el build de producción: arranque ≈ 2 s, c = 51.96, d deja 3 filas, DROP rechazado, sin scroll horizontal a 375 px, sin errores. Descarga ≈ 5.4 MB gzip solo en `/punto-2`. 53 tests en verde. Aviso de build `[EVAL]` proviene de PGlite (Emscripten), inofensivo.
 
 - **2026-10-04 — BD #2 sin integración GitHub:** Supabase rechaza conectar el repo a un segundo proyecto. Se añade `.github/workflows/deploy-db-punto-2.yml` (supabase/setup-cli + `db push --db-url` con el secreto `P2_DATABASE_URL`, cadena Session pooler). Pendiente: el usuario añade el secreto y/o `P2_DATABASE_URL` en `.env.local` para el primer push manual.

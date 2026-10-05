@@ -1,7 +1,7 @@
 // @vitest-environment node
 import type { PGlite } from '@electric-sql/pglite'
 import { migratedDb } from '@/test/pglite'
-import { EXAM_QUERIES, toScript, toSupabaseJs, type ExamPointId } from './examQueries'
+import { EXAM_QUERIES, toScript, type ExamPointId } from './examQueries'
 import { splitStatements } from '@/data/punto2/sqlRunner'
 
 type Row = Record<string, unknown>
@@ -106,8 +106,10 @@ describe('respuestas a–e', () => {
     for (const q of EXAM_QUERIES) expect(splitStatements(toScript(q))).toEqual(q.statements)
   })
 
-  it('el equivalente supabase-js llama a run_sql', () => {
-    expect(toSupabaseJs(query('c'))).toContain("supabase.rpc('run_sql'")
+  it('el script empieza con la pregunta como comentario', () => {
+    const script = toScript(query('c'))
+    expect(script.split('\n')[0]).toBe('-- c. ¿Cuánto gana la empresa al mes?')
+    expect(script).toContain('SELECT SUM(t.cargoMes)')
   })
 })
 
