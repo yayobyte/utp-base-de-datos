@@ -1,29 +1,15 @@
-import type { PGlite } from '@electric-sql/pglite'
 import { fireEvent, render, screen, waitFor, within } from '@testing-library/react'
-import { setClientForTesting } from '@/data/clients'
-import { migratedDb } from '@/test/pglite'
-import { pgliteSupabase } from '@/test/pgliteSupabase'
+import { resetData } from '@/data'
+import { getLocalDb } from '@/data/punto2/localDb'
 import { Punto2Page } from './Punto2Page'
 
-let db: PGlite
-
+// La página usa el PostgreSQL local (PGlite) con las migraciones reales de databases/punto-2.
 beforeAll(async () => {
-  db = await migratedDb('punto-2')
-  await db.exec('set role anon')
+  await getLocalDb()
 }, 30_000)
 
-afterAll(() => db.close())
-
 beforeEach(async () => {
-  vi.stubEnv('VITE_P2_SUPABASE_URL', 'https://test.supabase.co')
-  vi.stubEnv('VITE_P2_SUPABASE_ANON_KEY', 'sb_publishable_test')
-  setClientForTesting('p2', pgliteSupabase(db))
-  await db.query('select public.reset_data()')
-})
-
-afterEach(() => {
-  setClientForTesting('p2', null)
-  vi.unstubAllEnvs()
+  await resetData()
 })
 
 const tableCount = (name: string) => {
@@ -31,7 +17,7 @@ const tableCount = (name: string) => {
   return within(summary).getByText(/^\d+$|…/).textContent
 }
 
-describe('Punto2Page (contra PGlite con la migración real)', () => {
+describe('Punto2Page (PostgreSQL en el navegador)', () => {
   it('muestra las 11 tablas con sus filas', async () => {
     render(<Punto2Page />)
     await waitFor(() => expect(tableCount('member')).toBe('4'))

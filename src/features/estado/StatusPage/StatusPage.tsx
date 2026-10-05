@@ -35,7 +35,7 @@ function HealthCard({ report }: HealthCardProps) {
 
 /** Página de diagnóstico del despliegue: build de Vercel + conexión a las dos BD de Supabase. */
 export function StatusPage({ build = __BUILD_INFO__ }: StatusPageProps) {
-  const { data, loading, reload } = useAsync(() => Promise.all([checkHealth('p1'), checkHealth('p2')]))
+  const { data, loading, reload } = useAsync(() => Promise.all([checkHealth('p1')]))
   const allOk = data?.every((r) => r.ok) ?? false
 
   return (
@@ -43,7 +43,7 @@ export function StatusPage({ build = __BUILD_INFO__ }: StatusPageProps) {
       <SectionHeader
         eyebrow="Diagnóstico"
         title="Estado del despliegue"
-        description="Comprueba que el build de Vercel llega a las dos bases de datos de Supabase y que las migraciones están aplicadas."
+        description="Comprueba que el build de Vercel llega a la base de datos de Supabase y que las migraciones están aplicadas. El punto 2 usa PostgreSQL en el navegador y no necesita conexión."
         actions={
           <Button variant="subtle" onClick={() => void reload()} loading={loading}>
             Volver a comprobar

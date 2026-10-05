@@ -14,14 +14,23 @@
 | Migración (tablas + datos + `baseline` + funciones) | [`databases/punto-2/supabase/migrations/20261004010000_examen_dvd.sql`](../databases/punto-2/supabase/migrations/20261004010000_examen_dvd.sql) |
 | Respuestas a–e (datos puros) | [`src/domain/punto2/examQueries.ts`](../src/domain/punto2/examQueries.ts) |
 | Casos de uso | [`src/services/punto2/punto2Service.ts`](../src/services/punto2/punto2Service.ts) |
-| Acceso a datos (RPC) | [`src/data/punto2/sqlRunner.ts`](../src/data/punto2/sqlRunner.ts) |
+| Acceso a datos | [`src/data/punto2/sqlRunner.ts`](../src/data/punto2/sqlRunner.ts) → [`localDb.ts`](../src/data/punto2/localDb.ts) (PGlite) |
 | Página | `src/features/punto2/` (Punto2Page, ExamPointCard, SqlConsole, TablesPanel, ResultView) |
 | Pruebas con Postgres real (PGlite) | `src/domain/punto2/examQueries.test.ts`, `src/features/punto2/Punto2Page/Punto2Page.test.tsx` |
 
-**Esquemas.** La BD #2 (`mrxycubenuuobfkqvzbt`) ya tiene las tablas DreamHome de clase en `public` (incluido otro `staff`),
-así que las 11 tablas del examen viven en el esquema **`examen`**, con una copia intacta en **`baseline`**. `public` no se toca.
+**Motor: PostgreSQL en el navegador.** El punto 2 **no usa Supabase**: la página arranca PostgreSQL real compilado a
+WebAssembly ([PGlite](https://pglite.dev)) y le aplica las mismas migraciones de `databases/punto-2/supabase/migrations`
+(`src/data/punto2/localDb.ts`). Decisión del usuario (2026-10-04): no hacer migraciones en la BD #2 remota.
 
-**Funciones (RPC):**
+- Cada visitante tiene su propia copia; recargar la página o «Restablecer datos» vuelve al estado original.
+- Descarga ≈ 5.4 MB comprimidos (wasm + datos de PostgreSQL), **solo** al abrir `/punto-2`. Arranque ≈ 2 s.
+- Se ejecuta con el rol `anon`, igual que en Supabase: mismos permisos y restricciones de `run_sql`.
+- Las migraciones siguen siendo válidas para Supabase si algún día se quieren aplicar a una BD remota.
+
+**Esquemas.** Las 11 tablas del examen viven en el esquema **`examen`**, con una copia intacta en **`baseline`**
+(pensado para convivir con las tablas DreamHome de clase en `public` de la BD #2).
+
+**Funciones:**
 
 | Función | Qué hace | Seguridad |
 |---|---|---|
@@ -29,7 +38,7 @@ así que las 11 tablas del examen viven en el esquema **`examen`**, con una copi
 | `run_sql(statements text[])` | Ejecuta las sentencias en orden, en una transacción; devuelve `{rows, rowCount}` de la última | Invoker (anon), `search_path = examen, public`, timeout 3 s, solo SELECT/WITH/INSERT/UPDATE/DELETE, una sentencia por elemento |
 | `reset_data()` | Restaura `examen` desde `baseline` | Definer, `search_path = ''`, solo toca `examen` |
 
-`anon` no tiene acceso a `baseline`; `examen` no está expuesto en la Data API (solo se llega por estas funciones).
+`anon` no tiene acceso a `baseline`; solo se llega a `examen` por estas funciones.
 Las columnas se guardan en minúsculas (`catalogNo` → `catalogno`), como hace PostgreSQL con identificadores sin comillas.
 
 ## 1. Tablas (sin llaves foráneas: el esquema no está relacionado ni normalizado)

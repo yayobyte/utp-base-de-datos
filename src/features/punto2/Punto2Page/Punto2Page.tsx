@@ -1,13 +1,11 @@
 import { useCallback, useState } from 'react'
 import { DataError } from '@/data'
 import { EXAM_QUERIES, toScript, type ExamQuery } from '@/domain/punto2/examQueries'
-import { SupabaseGuard } from '@/features/shared/SupabaseGuard/SupabaseGuard'
 import { useAsync } from '@/hooks/useAsync'
-import { useProjectStatus } from '@/hooks/useProjectStatus'
 import { EXAM_POINTS } from '@/layout/navigation'
 import { SectionHeader } from '@/layout/SectionHeader/SectionHeader'
 import { punto2Service } from '@/services/punto2/punto2Service'
-import { Button, Chip, Modal, Toast } from '@/ui'
+import { Badge, Button, Chip, Modal, Toast } from '@/ui'
 import { ExamPointCard } from '../ExamPointCard/ExamPointCard'
 import { SqlConsole } from '../SqlConsole/SqlConsole'
 import { TablesPanel } from '../TablesPanel/TablesPanel'
@@ -17,9 +15,10 @@ import type { Notice, Punto2PageProps } from './Punto2Page.types'
 const POINT = EXAM_POINTS.find((p) => p.id === 'punto-2')!
 const EYEBROW = `Punto ${POINT.number} · ${POINT.shortLabel}`
 const DESCRIPTION =
-  'Base de datos StayHome en PostgreSQL (Supabase). Ejecuta cada respuesta, revisa el SQL y su explicación, o escribe tus propias consultas. Las tablas se actualizan tras cada ejecución.'
+  'Base de datos StayHome en PostgreSQL real, ejecutándose en tu navegador. Ejecuta cada respuesta, revisa el SQL y su explicación, o escribe tus propias consultas. Las tablas se actualizan tras cada ejecución.'
 
-function Punto2Content({ initialScript = 'SELECT * FROM dvd;' }: Punto2PageProps) {
+/** Página del punto 2: PostgreSQL (PGlite) en el navegador, con las mismas migraciones de databases/punto-2. */
+export function Punto2Page({ initialScript = 'SELECT * FROM dvd;' }: Punto2PageProps) {
   const tables = useAsync(() => punto2Service.loadTables())
   const [script, setScript] = useState(initialScript)
   const [confirmReset, setConfirmReset] = useState(false)
@@ -72,6 +71,15 @@ function Punto2Content({ initialScript = 'SELECT * FROM dvd;' }: Punto2PageProps
         }
       />
 
+      <div className={styles.engine}>
+        <Badge tone="outline">PostgreSQL en el navegador</Badge>
+        <span className={styles.engineText}>
+          {tables.loading && !tables.data
+            ? 'Iniciando la base de datos…'
+            : 'Cada visitante tiene su propia copia: recargar la página o «Restablecer datos» vuelve al estado original.'}
+        </span>
+      </div>
+
       {notice && (
         <div className={styles.notice}>
           <Toast message={notice.message} tone={notice.tone} onDismiss={() => setNotice(undefined)} />
@@ -118,14 +126,3 @@ function Punto2Content({ initialScript = 'SELECT * FROM dvd;' }: Punto2PageProps
   )
 }
 
-/** Página del punto 2. Sin credenciales de la BD #2 muestra cómo configurarlas. */
-export function Punto2Page(props: Punto2PageProps) {
-  const { configured } = useProjectStatus('p2')
-  if (configured) return <Punto2Content {...props} />
-  return (
-    <>
-      <SectionHeader eyebrow={EYEBROW} title={POINT.title} description={DESCRIPTION} />
-      <SupabaseGuard project="p2">{null}</SupabaseGuard>
-    </>
-  )
-}

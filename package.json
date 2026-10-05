@@ -13,6 +13,7 @@
     "test:watch": "vitest"
   },
   "dependencies": {
+    "@electric-sql/pglite": "^0.5.8",
     "@supabase/supabase-js": "^2.117.2",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
@@ -20,7 +21,6 @@
     "zustand": "^5.0.15"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "^0.5.8",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@types/node": "^24.13.3",

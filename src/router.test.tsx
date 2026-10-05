@@ -30,7 +30,7 @@ describe('router', () => {
   it('muestra el estado del despliegue', async () => {
     renderAt('/estado')
     expect(await screen.findByRole('heading', { level: 1, name: 'Estado del despliegue' })).toBeTruthy()
-    expect(await screen.findAllByText('Sin configurar')).toHaveLength(2)
+    expect(await screen.findAllByText('Sin configurar')).toHaveLength(1)
   })
 
   it('muestra 404 en rutas desconocidas', () => {

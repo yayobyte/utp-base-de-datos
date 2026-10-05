@@ -33,3 +33,16 @@
   max-height: calc(100vh - var(--size-control-height) * 2.5);
   overflow: auto;
 }
+
+.engine {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-lg);
+}
+
+.engineText {
+  font: var(--type-body-sm);
+  color: var(--color-body);
+}

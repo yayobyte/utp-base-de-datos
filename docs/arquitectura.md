@@ -16,18 +16,18 @@
                          │                  │                  │
                features/punto1     features/punto2     features/punto3
                          │                  │                  │
-                  services/punto1    data/punto2/sqlRunner   state/normalizacionStore
+                  services/punto1    services/punto2       state/normalizacionStore
                     │        │              │                  │
-             domain/punto1  data/punto1   RPC run_sql      domain/punto3
-                              │              │
-                     Supabase BD #1     Supabase BD #2
-                   (proyecto principal)  (películas/DVD)
+             domain/punto1  data/punto1   data/punto2       domain/punto3
+                              │          (sqlRunner→localDb)
+                     Supabase BD #1     PGlite en el navegador
+                   (proyecto principal)  (migraciones punto-2)
 ```
 
 | Punto | Persistencia | Proyecto Supabase | Carpeta de migraciones |
 |---|---|---|---|
 | 1 | Supabase | #1 (principal, conectado a GitHub) | `databases/punto-1/supabase` |
-| 2 | Supabase | #2 | `databases/punto-2/supabase` |
+| 2 | PostgreSQL en el navegador (PGlite) con las migraciones de `databases/punto-2` | — (sin servidor) | `databases/punto-2/supabase` |
 | 3 | Solo frontend (Zustand) | — | — |
 
 ## 2. Capas
@@ -96,7 +96,7 @@ Reglas visuales:
 - **Repository<T>** (`findAll`, `findBy`, `findOne`, `getOne`, `count`, `insert`, `update`, `remove`); errores normalizados a `DataError` (`not_configured`, `not_found`, `query_failed`, `network`). `update`/`remove` sin filtros se rechazan.
 - **Sin credenciales** la app no falla: `SupabaseGuard` muestra qué variables faltan en `.env.local`.
 - **Pruebas:** `src/data/testing/fakeSupabase.ts` simula el cliente y registra la cadena de llamadas.
-- **Punto 2:** `run_sql(statements text[])` y `reset_data()` son funciones `SECURITY DEFINER` que se ejecutan con el rol `exam_runner` (solo DML sobre `public`) y tienen un *timeout* de 3 s.
+- **Punto 2:** PostgreSQL real en el navegador (PGlite, carga diferida). `localDb.ts` aplica las migraciones de `databases/punto-2` (importadas con `?raw`) y ejecuta como `anon`; `run_sql` (invoker, `search_path = examen`, timeout 3 s, solo DML/SELECT) y `reset_data` (definer).
 - **Datos semilla en migraciones:** Supabase no aplica `seed.sql` en producción; `seed.sql` solo sirve para ramas de vista previa.
 
 ## 6. Suplantación (punto 1)

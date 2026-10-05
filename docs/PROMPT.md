@@ -101,3 +101,8 @@ use a file for the general typography and design system configuration so common 
 - La BD #2 es el proyecto de clase (`mrxycubenuuobfkqvzbt`) con DreamHome en `public`; el examen va en el esquema `examen`. Tablas de clase sin cambios (decisión del usuario: dejarlas como están).
 - Punto 2 completo: migración, respuestas a–e, consola SQL real, tablas siempre visibles, restablecer datos. Probado con Postgres real (PGlite).
 - Pendiente: conectar la BD #2 a GitHub (working dir `databases/punto-2`) y las variables `VITE_P2_*` en Vercel.
+
+### Iteración 8 — 2026-10-04: punto 2 sin migraciones remotas
+
+- Supabase solo permite una integración GitHub por repositorio; el usuario decide no hacer migraciones en la BD #2.
+- El punto 2 corre PostgreSQL real en el navegador (PGlite) con las mismas migraciones probadas. Funciona en Vercel sin variables ni BD.

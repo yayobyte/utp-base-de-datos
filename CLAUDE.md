@@ -28,7 +28,7 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - [x] Fase 2 — Tema + kit UI
 - [x] Fase 3 — Shell + navegación global
 - [x] Fase 4 — Capa de datos (ORM)
-- [x] Fase 5 — Punto 2 (código + pruebas; falta desplegar migración en BD #2)
+- [x] Fase 5 — Punto 2 (PostgreSQL en el navegador; sin BD remota)
 - [ ] Fase 6 — Punto 1 (BD ⏸ credenciales proyecto 1)
 - [ ] Fase 7 — Punto 3 normalización
 - [ ] Fase 8 — Integración GitHub↔Supabase + Vercel (repo listo; faltan pasos del usuario en dashboards)
@@ -47,7 +47,7 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 | 2026-10-04 | BD #1 usa las variables públicas de la integración Supabase↔Vercel (`NEXT_PUBLIC_*`); `VITE_P1_*` tiene prioridad si existe. BD #2 usa `VITE_P2_*`. |
 | 2026-10-04 | BD #2 = proyecto existente `mrxycubenuuobfkqvzbt`, que ya tiene las 8 tablas DreamHome de clase en `public` (incluye `staff`, choca con el `staff` del examen). Las 11 tablas del punto 2 van en el esquema **`examen`** (+ copia en `baseline`); `run_sql` usa `search_path = examen`; `reset_data` solo toca `examen`. No se modifican las tablas de clase (opcional: RLS solo lectura para anon). |
 | 2026-10-04 | Las migraciones se prueban con PGlite (`src/test/pglite.ts`); las páginas con datos, con `pgliteSupabase` en lugar de Supabase. |
-| 2026-10-04 | BD #2 en Vercel: `P2_SUPABASE_URL` / `P2_SUPABASE_ANON_KEY` (sin prefijo) → alias explícito a `VITE_P2_*` en `vite.config.ts`. |
+| 2026-10-04 | Punto 2 sin Supabase: PostgreSQL en el navegador (PGlite) con las migraciones de `databases/punto-2`. Solo la BD #1 es remota (integración GitHub↔Supabase). |
 | 2026-10-04 | Lint con **oxlint** (plantilla actual de Vite) en lugar de ESLint. Vite 8, React 19, TS 6. |
 
 ## Pendientes / bloqueos
@@ -56,6 +56,10 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - Preguntas abiertas: [docs/preguntas-abiertas.md](docs/preguntas-abiertas.md).
 
 ## Bitácora
+
+- **2026-10-04 — Punto 2 en el navegador (decisión del usuario: sin migraciones en la BD #2):** `src/data/punto2/localDb.ts` arranca PGlite (import dinámico), aplica las migraciones `databases/punto-2/...` (`?raw`) y ejecuta como `anon`; `sqlRunner` usa `callLocal` en lugar de `supabase.rpc`. `@electric-sql/pglite` pasa a dependencia; `optimizeDeps.exclude`. Se quitan: GitHub Action de la BD #2, alias `P2_*` de `vite.config.ts`, `src/test/pgliteSupabase.ts`, guardia de credenciales del punto 2 y la tarjeta BD #2 de `/estado`. Verificado en Chrome real (Puppeteer) con el build de producción: arranque ≈ 2 s, c = 51.96, d deja 3 filas, DROP rechazado, sin scroll horizontal a 375 px, sin errores. Descarga ≈ 5.4 MB gzip solo en `/punto-2`. 53 tests en verde. Aviso de build `[EVAL]` proviene de PGlite (Emscripten), inofensivo.
+
+- **2026-10-04 — BD #2 sin integración GitHub:** Supabase rechaza conectar el repo a un segundo proyecto. Se añade `.github/workflows/deploy-db-punto-2.yml` (supabase/setup-cli + `db push --db-url` con el secreto `P2_DATABASE_URL`, cadena Session pooler). Pendiente: el usuario añade el secreto y/o `P2_DATABASE_URL` en `.env.local` para el primer push manual.
 
 - **2026-10-04 — Variables BD #2 en Vercel:** Vercel no permite crear variables `VITE_*`. Se crearon `P2_SUPABASE_URL` y `P2_SUPABASE_ANON_KEY`; `vite.config.ts` las copia (lista cerrada `PUBLIC_ALIASES`, vía `define`, desactivado en Vitest) a `VITE_P2_*`. Verificado con build simulado: URLs y publishable keys de ambas BD en el bundle, ningún secreto.
 
