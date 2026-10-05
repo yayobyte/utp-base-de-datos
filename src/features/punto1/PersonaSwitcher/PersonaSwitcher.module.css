@@ -19,6 +19,12 @@
   gap: var(--space-sm);
 }
 
+/* Separador vertical entre grupos de rol */
+.group + .group {
+  padding-left: var(--space-2xl);
+  border-left: var(--border-hairline) solid var(--color-mute);
+}
+
 .groupLabel {
   display: inline-flex;
   align-items: center;
