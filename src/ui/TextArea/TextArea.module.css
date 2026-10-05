@@ -11,11 +11,17 @@
 .area {
   width: 100%;
   padding: var(--space-md) var(--space-lg);
-  border: var(--border-strong) solid transparent;
+  /* Borde siempre visible: el área de texto suele ir dentro de tarjetas grises (consola SQL). */
+  border: var(--border-strong) solid var(--color-mute);
   border-radius: var(--radius-md);
-  background: var(--color-canvas-soft);
+  background: var(--color-canvas);
+  transition: border-color var(--motion-fast);
   font: var(--type-body-md);
   resize: vertical;
+}
+
+.area:hover {
+  border-color: var(--color-hairline-mid);
 }
 
 .area:focus {
