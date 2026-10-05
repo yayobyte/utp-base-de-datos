@@ -108,4 +108,6 @@ Reglas visuales:
 
 - `npm run typecheck && npm run lint && npm test && npm run build`.
 - Vitest para `domain/` (reglas) y `data/orm` (con cliente simulado).
+- **PGlite** (Postgres en WebAssembly) para probar las migraciones reales: `src/test/pglite.ts` aplica `databases/<punto>/supabase/migrations` en memoria y `src/test/pgliteSupabase.ts` hace que el cliente de la app ejecute sus RPC contra esa BD. Así las páginas se prueban de punta a punta sin Supabase.
+- Rutas pesadas con carga diferida (`lazy` en `router.tsx`): supabase-js solo se descarga al abrir un punto que lo usa.
 - Comprobaciones con grep: sin hex/px en `*.module.css`; 3 archivos por componente; sin `supabase` fuera de `src/data/`.

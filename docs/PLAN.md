@@ -169,7 +169,9 @@ The current repo is a class-notes repo. It gets restructured: **the app lives at
 3. `sqlRunner.ts`: `runSql(statements: string[])` → `p2.rpc('run_sql', { statements })` → `{ columns, rows, rowCount, durationMs }`; `resetData()` → `p2.rpc('reset_data')`.
 4. Unit-test the repository with a mocked supabase client (vitest).
 
-## Phase 5 — Point 2 DB + UI  ☐ (DB part ⏸ BLOCKED on project-2 credentials)
+## Phase 5 — Point 2 DB + UI  ☑ (2026-10-04 · código y pruebas; falta desplegar la migración en la BD #2)
+
+> **Actualización 2026-10-04:** la BD #2 es un proyecto existente con las tablas DreamHome de clase en `public` (incluye `staff`). Todo el punto 2 va en el esquema **`examen`** (tablas) + **`baseline`** (copia para reset). `run_sql` fija `search_path = examen, public`; `reset_data` solo toca `examen`; el panel de tablas lee vía RPC, sin exponer `examen` en la Data API. No tocar `public`.
 
 **Migration `databases/punto-2/supabase/migrations/<ts>_dvd.sql`:**
 - 11 tables exactly as in the images, with no FKs ("not related, not normalized"): `distributioncenter, staff, dvd, actor, dvdactor, member, tipomembrecia, deseo, alquiler, dvdrental, dvdcopy`.

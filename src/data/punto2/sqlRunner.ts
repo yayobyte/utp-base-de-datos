@@ -1,9 +1,8 @@
 import { getClient } from '../clients'
 import { DataError } from '../orm/DataError'
-import { Repository } from '../orm/Repository'
 import type { Row, SqlResult } from '../orm/types'
 
-/** Tablas del punto 2 (esquema de las imágenes del examen), en el orden en que se muestran. */
+/** Tablas del punto 2 (esquema `examen`, imágenes del examen), en el orden en que se muestran. */
 export const PUNTO2_TABLES = [
   'distributioncenter',
   'staff',
@@ -82,7 +81,15 @@ export async function resetData(): Promise<void> {
   if (error) throw DataError.from(error)
 }
 
-/** Repositorio de solo lectura para mostrar una tabla del punto 2. */
-export function tableRepository(table: Punto2Table): Repository<Row> {
-  return new Repository<Row>('p2', table)
+export type Punto2Tables = Record<Punto2Table, Row[]>
+
+/**
+ * Lee las 11 tablas en una sola llamada (RPC `punto2_tables`).
+ * El esquema `examen` no se expone en la Data API, por eso no se usa Repository aquí.
+ */
+export async function fetchPunto2Tables(): Promise<Punto2Tables> {
+  const { data, error } = await getClient('p2').rpc('punto2_tables')
+  if (error) throw DataError.from(error)
+  const res = (data ?? {}) as Partial<Punto2Tables>
+  return Object.fromEntries(PUNTO2_TABLES.map((t) => [t, res[t] ?? []])) as Punto2Tables
 }

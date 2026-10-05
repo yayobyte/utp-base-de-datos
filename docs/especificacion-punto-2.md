@@ -7,6 +7,31 @@
 
 ---
 
+## 0. Implementación
+
+| Pieza | Archivo |
+|---|---|
+| Migración (tablas + datos + `baseline` + funciones) | [`databases/punto-2/supabase/migrations/20261004010000_examen_dvd.sql`](../databases/punto-2/supabase/migrations/20261004010000_examen_dvd.sql) |
+| Respuestas a–e (datos puros) | [`src/domain/punto2/examQueries.ts`](../src/domain/punto2/examQueries.ts) |
+| Casos de uso | [`src/services/punto2/punto2Service.ts`](../src/services/punto2/punto2Service.ts) |
+| Acceso a datos (RPC) | [`src/data/punto2/sqlRunner.ts`](../src/data/punto2/sqlRunner.ts) |
+| Página | `src/features/punto2/` (Punto2Page, ExamPointCard, SqlConsole, TablesPanel, ResultView) |
+| Pruebas con Postgres real (PGlite) | `src/domain/punto2/examQueries.test.ts`, `src/features/punto2/Punto2Page/Punto2Page.test.tsx` |
+
+**Esquemas.** La BD #2 (`mrxycubenuuobfkqvzbt`) ya tiene las tablas DreamHome de clase en `public` (incluido otro `staff`),
+así que las 11 tablas del examen viven en el esquema **`examen`**, con una copia intacta en **`baseline`**. `public` no se toca.
+
+**Funciones (RPC):**
+
+| Función | Qué hace | Seguridad |
+|---|---|---|
+| `punto2_tables()` | Devuelve las 11 tablas en un JSON (una sola llamada) | Invoker (anon): solo lectura de `examen` |
+| `run_sql(statements text[])` | Ejecuta las sentencias en orden, en una transacción; devuelve `{rows, rowCount}` de la última | Invoker (anon), `search_path = examen, public`, timeout 3 s, solo SELECT/WITH/INSERT/UPDATE/DELETE, una sentencia por elemento |
+| `reset_data()` | Restaura `examen` desde `baseline` | Definer, `search_path = ''`, solo toca `examen` |
+
+`anon` no tiene acceso a `baseline`; `examen` no está expuesto en la Data API (solo se llega por estas funciones).
+Las columnas se guardan en minúsculas (`catalogNo` → `catalogno`), como hace PostgreSQL con identificadores sin comillas.
+
 ## 1. Tablas (sin llaves foráneas: el esquema no está relacionado ni normalizado)
 
 | Tabla | Columnas | Filas |
@@ -23,7 +48,7 @@
 | `dvdrental` | deliveryNo, DVDNo, fechaEntrega | 4 |
 | `dvdcopy` | DVDNo, disponible, catalogNo, dCenterNo | 4 |
 
-Los datos completos están transcritos en [PLAN.md](PLAN.md), fase 5.
+Los datos completos están en la migración (transcritos de las imágenes).
 
 ## 2. Interfaz
 

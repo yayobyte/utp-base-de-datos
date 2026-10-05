@@ -28,7 +28,7 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - [x] Fase 2 — Tema + kit UI
 - [x] Fase 3 — Shell + navegación global
 - [x] Fase 4 — Capa de datos (ORM)
-- [ ] Fase 5 — Punto 2 (BD ⏸ credenciales proyecto 2)
+- [x] Fase 5 — Punto 2 (código + pruebas; falta desplegar migración en BD #2)
 - [ ] Fase 6 — Punto 1 (BD ⏸ credenciales proyecto 1)
 - [ ] Fase 7 — Punto 3 normalización
 - [ ] Fase 8 — Integración GitHub↔Supabase + Vercel (repo listo; faltan pasos del usuario en dashboards)
@@ -45,14 +45,22 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 | 2026-10-04 | Punto 3 usa solo estado frontend (Zustand), sin BD. |
 | 2026-10-04 | Tipografía como shorthand CSS: `font: var(--type-body-md)`. Los tests (`*.test.ts(x)`) no cuentan en la regla de 3 archivos. |
 | 2026-10-04 | BD #1 usa las variables públicas de la integración Supabase↔Vercel (`NEXT_PUBLIC_*`); `VITE_P1_*` tiene prioridad si existe. BD #2 usa `VITE_P2_*`. |
+| 2026-10-04 | BD #2 = proyecto existente `mrxycubenuuobfkqvzbt`, que ya tiene las 8 tablas DreamHome de clase en `public` (incluye `staff`, choca con el `staff` del examen). Las 11 tablas del punto 2 van en el esquema **`examen`** (+ copia en `baseline`); `run_sql` usa `search_path = examen`; `reset_data` solo toca `examen`. No se modifican las tablas de clase (opcional: RLS solo lectura para anon). |
+| 2026-10-04 | Las migraciones se prueban con PGlite (`src/test/pglite.ts`); las páginas con datos, con `pgliteSupabase` en lugar de Supabase. |
 | 2026-10-04 | Lint con **oxlint** (plantilla actual de Vite) en lugar de ESLint. Vite 8, React 19, TS 6. |
 
 ## Pendientes / bloqueos
 
-- Usuario: crear proyectos Supabase #1/#2, conectar GitHub (working dirs `databases/punto-1|2`), importar en Vercel con las 4 variables `VITE_*` — ver docs/despliegue.md. Luego verificar `/estado`.
+- ✅ BD #1 desplegada y conectada. Usuario: crear proyecto Supabase #2, conectar GitHub (working dirs `databases/punto-1|2`), importar en Vercel con las 4 variables `VITE_*` — ver docs/despliegue.md. Luego verificar `/estado`.
 - Preguntas abiertas: [docs/preguntas-abiertas.md](docs/preguntas-abiertas.md).
 
 ## Bitácora
+
+- **2026-10-04 — Fase 5 (punto 2):** migración `databases/punto-2/.../20261004010000_examen_dvd.sql`: esquema `examen` (11 tablas sin FKs + datos de las imágenes), `baseline` (copia), RPC `punto2_tables()`, `run_sql(text[])` (invoker/anon, search_path examen, timeout 3 s, solo SELECT/WITH/INSERT/UPDATE/DELETE, una sentencia por elemento, transacción única, DML devuelve filas afectadas) y `reset_data()` (definer). `domain/punto2/examQueries.ts` (a–e con explicación y resultado esperado, `toScript`, `toSupabaseJs`). `services/punto2/punto2Service.ts`. `data/punto2/sqlRunner.ts`: `fetchPunto2Tables` reemplaza `tableRepository` (examen no está en la Data API). UI `features/punto2/` (Punto2Page, ExamPointCard con pestañas SQL/supabase-js/Explicación y confirmación en d/e, SqlConsole con Ctrl+Enter e historial, TablesPanel plegable y fijo, ResultView). Pruebas con **PGlite** sobre la migración real: respuestas a–e (c = 51.96, d deja 3 miembros, e S0415 = 43260), seguridad (DDL rechazado, baseline inaccesible, atomicidad) y UI de punta a punta. Rutas `/punto-2` y `/estado` con carga diferida (sin aviso de chunk > 500 kB). 55 tests en verde.
+
+- **2026-10-04 — BD #2 inspeccionada (solo lectura, vía REST):** proyecto `mrxycubenuuobfkqvzbt` con DreamHome en `public` (branch 5, staff 6, client 4, propertyforrent 6, privateowner 4, viewing 5, registration 4, lease 3), RLS desactivado (anon puede escribir), `dob` con años 20xx. Ninguna tabla del examen ni `health()`. Variables renombradas a `VITE_P2_*` en `.env.local`.
+
+- **2026-10-04 — ✅ Cadena completa BD #1 verificada en producción:** `https://utp-base-de-datos.vercel.app/estado` muestra BD #1 *Conectada*, migración `20261004000000`. GitHub → Supabase (migraciones) → Vercel (build) → navegador funcionando. Pendiente: proyecto Supabase #2.
 
 - **2026-10-04 — Despliegue BD #1 verificado:** integración GitHub↔Supabase aplicó la migración `health` en el proyecto #1 (`slbngbrtpiewenvsiabe`) tras un push nuevo; `health()` responde ok. El build de Vercel no tenía las variables `VITE_*` → la app ahora también lee `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY|ANON_KEY` (creadas por la integración Supabase↔Vercel) mediante `envPrefix: ['VITE_', 'NEXT_PUBLIC_']`. Verificado que ningún secreto (service role, POSTGRES_*) entra al bundle. Vitest fija las variables a vacío para no depender de `.env.local`. 30 tests en verde.
 

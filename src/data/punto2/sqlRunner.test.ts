@@ -1,6 +1,6 @@
 import { setClientForTesting } from '../clients'
 import { fakeSupabase } from '../testing/fakeSupabase'
-import { resetData, runScript, runSql, splitStatements } from './sqlRunner'
+import { fetchPunto2Tables, resetData, runScript, runSql, splitStatements } from './sqlRunner'
 
 afterEach(() => setClientForTesting('p2', null))
 
@@ -58,5 +58,17 @@ describe('runSql', () => {
     setClientForTesting('p2', fake.client)
     await resetData()
     expect(fake.calls[0].args[0]).toBe('reset_data')
+  })
+})
+
+describe('fetchPunto2Tables', () => {
+  it('llama a punto2_tables y completa las tablas que falten con []', async () => {
+    const fake = fakeSupabase({ data: { dvd: [{ catalogno: '207132' }] } })
+    setClientForTesting('p2', fake.client)
+    const tables = await fetchPunto2Tables()
+    expect(fake.calls[0].args[0]).toBe('punto2_tables')
+    expect(tables.dvd).toHaveLength(1)
+    expect(tables.staff).toEqual([])
+    expect(Object.keys(tables)).toHaveLength(11)
   })
 })

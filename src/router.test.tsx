@@ -16,19 +16,20 @@ describe('router', () => {
     ['/punto-1/estudiante/prematricula', 'Registro de notas UTP'],
     ['/punto-2', 'Películas, actores y alquileres'],
     ['/punto-3', 'Tabla Préstamo'],
-  ])('%s muestra su página', (path, title) => {
+  ])('%s muestra su página', async (path, title) => {
     renderAt(path)
-    expect(screen.getByRole('heading', { level: 1, name: title })).toBeTruthy()
+    expect(await screen.findByRole('heading', { level: 1, name: title })).toBeTruthy()
   })
 
-  it('marca el punto activo en la navegación global', () => {
+  it('marca el punto activo en la navegación global', async () => {
     renderAt('/punto-2')
+    await screen.findByRole('heading', { level: 1, name: 'Películas, actores y alquileres' })
     expect(screen.getByRole('link', { name: /Punto 2/ }).getAttribute('aria-current')).toBe('page')
   })
 
   it('muestra el estado del despliegue', async () => {
     renderAt('/estado')
-    expect(screen.getByRole('heading', { level: 1, name: 'Estado del despliegue' })).toBeTruthy()
+    expect(await screen.findByRole('heading', { level: 1, name: 'Estado del despliegue' })).toBeTruthy()
     expect(await screen.findAllByText('Sin configurar')).toHaveLength(2)
   })
 

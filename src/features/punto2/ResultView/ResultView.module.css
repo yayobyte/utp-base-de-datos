@@ -1,0 +1,28 @@
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.muted {
+  font: var(--type-body-sm);
+  color: var(--color-body);
+}
+
+.error {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-lg);
+  box-shadow: inset 0 0 0 var(--border-strong) var(--color-status-danger);
+  font: var(--type-body-sm);
+  font-family: var(--font-mono);
+  white-space: pre-wrap;
+}

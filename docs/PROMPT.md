@@ -95,3 +95,9 @@ use a file for the general typography and design system configuration so common 
 - Pedido: conectar Vercel y Supabase antes de la fase 5 para asegurar que el despliegue funciona.
 - Repo preparado: carpetas Supabase de las 2 BD, migración `health`, página `/estado`, `vercel.json` completo.
 - Pasos manuales en dashboards: [docs/despliegue.md](despliegue.md). Verificación: `/estado` → "Todo funciona".
+
+### Iteración 7 — 2026-10-04: BD #2 reutilizada + fase 5 (punto 2)
+
+- La BD #2 es el proyecto de clase (`mrxycubenuuobfkqvzbt`) con DreamHome en `public`; el examen va en el esquema `examen`. Tablas de clase sin cambios (decisión del usuario: dejarlas como están).
+- Punto 2 completo: migración, respuestas a–e, consola SQL real, tablas siempre visibles, restablecer datos. Probado con Postgres real (PGlite).
+- Pendiente: conectar la BD #2 a GitHub (working dir `databases/punto-2`) y las variables `VITE_P2_*` en Vercel.
