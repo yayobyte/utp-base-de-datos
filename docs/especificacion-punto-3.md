@@ -59,8 +59,17 @@ DF: `CodLibro → Titulo, Editorial, ApellidosLector, NombreLector, FechaDev`. E
 
 ## 6. Implementación
 
-`src/domain/punto3/normalizacion.ts` exporta funciones puras `toUNF`, `to1FN`, `to2FN` y `to3FN`.
-Cada una devuelve `{ tables, dependencias, explicacion, cambios }`. Hay pruebas de forma y número de filas por paso.
+| Pieza | Archivo |
+|---|---|
+| Reglas (funciones puras) | [`src/domain/punto3/normalizacion.ts`](../src/domain/punto3/normalizacion.ts): `toUNF`, `to1FN`, `to2FN`, `to3FN`, `normalize` |
+| Estado (Zustand, sin BD) | [`src/state/normalizacionStore.ts`](../src/state/normalizacionStore.ts): paso actual + filas editables |
+| Página | `src/features/punto3/` (Punto3Page, StepView, NfTableCard, DependencyList, SchemaDiagram, SourceEditor) |
+| Pruebas | `normalizacion.test.ts` (conteos por paso, FKs válidas, recálculo) y `Punto3Page.test.tsx` |
+
+Cada paso se **calcula** desde las filas de origen (no está escrito a mano): devuelve
+`{ tables, dependencias, explicacion, cambios }`. Los ids de 3FN (`E1`, `A1`, `L1`…) se asignan por orden de aparición.
+Resultado con los datos del examen: 0FN 5 filas → 1FN 6 → 2FN Libro 5 · LibroAutor 6 · Prestamo 5 →
+3FN Editorial 3 · Autor 5 · Lector 4 · Libro 5 · LibroAutor 6 · Prestamo 5.
 
 ## 7. Preguntas de repaso
 

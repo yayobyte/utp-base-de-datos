@@ -30,7 +30,7 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - [x] Fase 4 — Capa de datos (ORM)
 - [x] Fase 5 — Punto 2 (PostgreSQL en el navegador; sin BD remota)
 - [ ] Fase 6 — Punto 1 (BD ⏸ credenciales proyecto 1)
-- [ ] Fase 7 — Punto 3 normalización
+- [x] Fase 7 — Punto 3 normalización
 - [ ] Fase 8 — Integración GitHub↔Supabase + Vercel (repo listo; faltan pasos del usuario en dashboards)
 
 ## Decisiones tomadas
@@ -56,6 +56,8 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - Preguntas abiertas: [docs/preguntas-abiertas.md](docs/preguntas-abiertas.md).
 
 ## Bitácora
+
+- **2026-10-04 — Fase 7 (punto 3):** `domain/punto3/normalizacion.ts` calcula 0FN→1FN→2FN→3FN desde las filas (separa autores por «y»/«,», apellidos/nombre por coma; catálogos E/A/L con ids por orden de aparición; marca PK/FK, referencias y columnas cambiadas). `state/normalizacionStore.ts` (Zustand: paso + filas editables). UI `features/punto3/`: Stepper + anterior/siguiente, StepView (explicación, cambios, dependencias, antes/después), NfTableCard (cabeceras «Col · PK/FK», subrayado = cambio), SchemaDiagram (3FN), SourceEditor (sandbox plegable). Ruta `/punto-3` diferida. `testTimeout` 15 s en Vitest (PGlite + rutas diferidas en paralelo). 67 tests en verde; verificado en Chrome (sin errores, sin scroll horizontal a 375 px).
 
 - **2026-10-04 — TextArea con borde visible:** fondo blanco + borde `--color-mute` (hover `--color-hairline-mid`, foco `--color-ink`), para que la consulta de la consola SQL se vea sin enfocarla.
 

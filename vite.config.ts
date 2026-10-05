@@ -29,6 +29,8 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
+    // Varias pruebas arrancan PostgreSQL (PGlite) y rutas diferidas en paralelo: margen para máquinas cargadas.
+    testTimeout: 15_000,
     // Las pruebas no dependen del .env.local del desarrollador: cada prueba simula lo que necesita.
     env: {
       VITE_P1_SUPABASE_URL: '',

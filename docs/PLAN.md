@@ -268,7 +268,7 @@ The current repo is a class-notes repo. It gets restructured: **the app lives at
 
 **Verify:** `npm test`, then play through all phases end to end as Admin → Estudiante → Admin → Docente → Admin (cierre) and check the estados change.
 
-## Phase 7 — Point 3 normalization  ☐
+## Phase 7 — Point 3 normalization  ☑ (2026-10-04)
 
 - `domain/punto3/normalizacion.ts` holds the 5 source rows from `exam.md` and pure functions for each step.
 - Each step returns `{ tables: {name, columns, keys, rows}[], dependencias: string[], explicacion: string, cambios: string[] }`. The steps:

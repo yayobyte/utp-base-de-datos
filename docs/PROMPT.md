@@ -106,3 +106,8 @@ use a file for the general typography and design system configuration so common 
 
 - Supabase solo permite una integración GitHub por repositorio; el usuario decide no hacer migraciones en la BD #2.
 - El punto 2 corre PostgreSQL real en el navegador (PGlite) con las mismas migraciones probadas. Funciona en Vercel sin variables ni BD.
+
+### Iteración 9 — 2026-10-04: fase 7 (punto 3)
+
+- Normalización paso a paso 0FN → 3FN calculada desde los datos, con antes/después, dependencias funcionales, esquema final y modo sandbox para editar la tabla original.
+- Siguiente: fase 6 (punto 1, BD #1). Conviene responder antes las preguntas 1–5 de docs/preguntas-abiertas.md.

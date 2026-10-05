@@ -6,7 +6,7 @@ import { UiShowcase } from '@/features/ui-showcase/UiShowcase'
 import { AppShell } from '@/layout/AppShell/AppShell'
 import { EXAM_POINTS } from '@/layout/navigation'
 
-const [punto1, , punto3] = EXAM_POINTS
+const [punto1] = EXAM_POINTS
 
 export const routes: RouteObject[] = [
   {
@@ -21,7 +21,10 @@ export const routes: RouteObject[] = [
         // Carga diferida: supabase-js y la página del punto 2 solo se descargan al entrar.
         lazy: () => import('@/features/punto2/Punto2Page/Punto2Page').then((m) => ({ Component: m.Punto2Page })),
       },
-      { path: 'punto-3', element: <PointPlaceholder point={punto3} phase={7} /> },
+      {
+        path: 'punto-3',
+        lazy: () => import('@/features/punto3/Punto3Page/Punto3Page').then((m) => ({ Component: m.Punto3Page })),
+      },
       {
         path: 'estado',
         lazy: () => import('@/features/estado/StatusPage/StatusPage').then((m) => ({ Component: () => <m.StatusPage /> })),

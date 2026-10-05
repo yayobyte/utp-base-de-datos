@@ -1,0 +1,16 @@
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-2xl);
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-md);
+}
+
+.sandbox {
+  margin-top: var(--space-3xl);
+}

@@ -18,7 +18,7 @@ describe('router', () => {
     ['/punto-3', 'Tabla Préstamo'],
   ])('%s muestra su página', async (path, title) => {
     renderAt(path)
-    expect(await screen.findByRole('heading', { level: 1, name: title })).toBeTruthy()
+    expect(await screen.findByRole('heading', { level: 1, name: title }, { timeout: 5000 })).toBeTruthy()
   })
 
   it('marca el punto activo en la navegación global', async () => {
