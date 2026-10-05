@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { accionesDe, accionPorId, disponibilidad } from '@/domain/punto1/permisos'
 import { SupabaseGuard } from '@/features/shared/SupabaseGuard/SupabaseGuard'
@@ -6,9 +6,10 @@ import { useAsync } from '@/hooks/useAsync'
 import { useProjectStatus } from '@/hooks/useProjectStatus'
 import { EXAM_POINTS } from '@/layout/navigation'
 import { SectionHeader } from '@/layout/SectionHeader/SectionHeader'
-import { calendarioActual, personas as cargarPersonas } from '@/services/punto1'
+import { calendarioActual, personas as cargarPersonas, reiniciarDemo } from '@/services/punto1'
 import { useImpersonationStore } from '@/state/impersonationStore'
-import { Card, EmptyState } from '@/ui'
+import { Button, Card, EmptyState, Modal, Toast } from '@/ui'
+import { useRunner } from '@/hooks/useRunner'
 import { ACTION_PAGES } from '../actionPages'
 import { Punto1Context } from '../context'
 import { PersonaSwitcher } from '../PersonaSwitcher/PersonaSwitcher'
@@ -70,10 +71,53 @@ function Punto1Content() {
 /** Punto 1: sistema de registro de notas con suplantación de personas (BD #1). */
 export function Punto1Layout() {
   const { configured } = useProjectStatus('p1')
+  const [version, setVersion] = useState(0)
+  const [confirm, setConfirm] = useState(false)
+  // Tras restaurar se vuelve a montar el contenido: todo se recarga desde la BD.
+  const { run, busy, notice, clearNotice } = useRunner(() => setVersion((v) => v + 1))
+
   return (
     <>
-      <SectionHeader eyebrow={`Punto ${POINT.number} · ${POINT.shortLabel}`} title={POINT.title} description={DESCRIPTION} />
-      {configured ? <Punto1Content /> : <SupabaseGuard project="p1">{null}</SupabaseGuard>}
+      <SectionHeader
+        eyebrow={`Punto ${POINT.number} · ${POINT.shortLabel}`}
+        title={POINT.title}
+        description={DESCRIPTION}
+        actions={
+          configured && (
+            <Button variant="secondary" loading={busy} onClick={() => setConfirm(true)}>
+              ↺ Restaurar
+            </Button>
+          )
+        }
+      />
+      {notice && (
+        <div className={styles.notice}>
+          <Toast message={notice.message} tone={notice.tone} onDismiss={clearNotice} />
+        </div>
+      )}
+      {configured ? <Punto1Content key={version} /> : <SupabaseGuard project="p1">{null}</SupabaseGuard>}
+      <Modal
+        open={confirm}
+        title="¿Restaurar la demostración?"
+        onClose={() => setConfirm(false)}
+        footer={
+          <>
+            <Button variant="subtle" onClick={() => setConfirm(false)}>
+              Cancelar
+            </Button>
+            <Button
+              onClick={() => {
+                setConfirm(false)
+                void run(() => reiniciarDemo(), 'Demostración restaurada: periodo en planeación y datos iniciales')
+              }}
+            >
+              Restaurar
+            </Button>
+          </>
+        }
+      >
+        Se borran prematrículas, pagos, grupos, notas y cambios de estado, y se vuelve a los datos iniciales (fase de planeación).
+      </Modal>
     </>
   )
 }

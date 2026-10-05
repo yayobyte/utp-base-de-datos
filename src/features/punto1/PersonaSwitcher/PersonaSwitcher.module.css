@@ -2,7 +2,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
-  gap: var(--space-lg);
+  gap: var(--space-2xl);
   padding: var(--space-lg);
   border-radius: var(--radius-xl);
   background: var(--color-canvas-soft);
@@ -16,16 +16,26 @@
 .group {
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
+  gap: var(--space-sm);
 }
 
 .groupLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
   font: var(--type-caption);
+  font-weight: 500;
   color: var(--color-body);
 }
 
-.chips {
+.groupIcon {
+  display: inline-flex;
+  width: var(--space-lg);
+  height: var(--space-lg);
+}
+
+.avatars {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-xs);
+  gap: var(--space-sm);
 }

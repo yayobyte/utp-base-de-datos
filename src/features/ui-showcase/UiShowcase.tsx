@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import {
+  AvatarButton,
   Badge,
   Button,
   Card,
@@ -63,6 +64,12 @@ export function UiShowcase() {
           <Button size="sm">Pequeño</Button>
           <Button loading>Guardar</Button>
           <Button disabled>Deshabilitado</Button>
+        </Section>
+
+        <Section title="AvatarButton">
+          {['Laura Ortiz', 'Carlos Restrepo', 'Ana Martínez', 'Juan Pérez'].map((n, i) => (
+            <AvatarButton key={n} name={n} selected={i === 2} badge="★" />
+          ))}
         </Section>
 
         <Section title="Chip">

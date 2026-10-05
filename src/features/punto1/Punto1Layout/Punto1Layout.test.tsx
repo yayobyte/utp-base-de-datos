@@ -66,6 +66,20 @@ describe('Punto1Layout (contra PGlite con la migración real)', () => {
     expect((within(nav()).getByRole('button', { name: /Cancelar asignaturas/ }) as HTMLButtonElement).disabled).toBe(true)
   })
 
+  it('restaurar vuelve al escenario inicial', async () => {
+    renderAt()
+    await actuarComo('Laura Ortiz')
+    fireEvent.click(within(await screen.findByRole('navigation', { name: /Acciones de/ })).getByRole('button', { name: /Calendario/ }))
+    fireEvent.click(await screen.findByRole('button', { name: 'Aprobar calendario' }))
+    fireEvent.click(await screen.findByRole('button', { name: 'Avanzar a Prematrícula' }))
+    await waitFor(() => expect(screen.getByText('Prematrícula', { selector: 'li' }).getAttribute('aria-current')).toBe('step'))
+
+    fireEvent.click(screen.getByRole('button', { name: '↺ Restaurar' }))
+    fireEvent.click(within(screen.getByRole('dialog', { name: '¿Restaurar la demostración?' })).getByRole('button', { name: 'Restaurar' }))
+    expect(await screen.findByText(/Demostración restaurada/)).toBeTruthy()
+    await waitFor(() => expect(screen.getByText('Planeación', { selector: 'li' }).getAttribute('aria-current')).toBe('step'))
+  })
+
   it('el resumen del estudiante muestra atributos derivados y estado', async () => {
     useImpersonationStore.setState({ personaId: 'E003' })
     renderAt('/punto-1/est-resumen')

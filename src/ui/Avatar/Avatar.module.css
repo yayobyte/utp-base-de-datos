@@ -1,0 +1,66 @@
+.button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-xxs);
+  padding: var(--space-xxs);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.avatar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: calc(var(--size-avatar) * 1.5);
+  height: calc(var(--size-avatar) * 1.5);
+  border-radius: var(--radius-full);
+  background: var(--color-canvas);
+  box-shadow: inset 0 0 0 var(--border-strong) var(--color-surface-pressed);
+  color: var(--color-ink);
+  font: var(--type-body-md-strong);
+  transition: background var(--motion-fast), box-shadow var(--motion-fast);
+}
+
+.button:hover .avatar {
+  box-shadow: inset 0 0 0 var(--border-strong) var(--color-hairline-mid);
+}
+
+.selected .avatar,
+.selected:hover .avatar {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  box-shadow: var(--shadow-level3);
+}
+
+.badge {
+  position: absolute;
+  right: calc(var(--space-xxs) * -1);
+  bottom: calc(var(--space-xxs) * -1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-xl);
+  height: var(--space-xl);
+  border-radius: var(--radius-full);
+  background: var(--color-canvas);
+  box-shadow: var(--shadow-level3);
+  color: var(--color-ink);
+}
+
+.badge svg {
+  width: var(--space-md);
+  height: var(--space-md);
+}
+
+.name {
+  font: var(--type-caption);
+  color: var(--color-body);
+}
+
+.selected .name {
+  color: var(--color-ink);
+  font-weight: 700;
+}

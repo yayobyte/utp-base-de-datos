@@ -25,3 +25,7 @@
   font: var(--type-body-sm);
   color: var(--color-body);
 }
+
+.notice {
+  margin-bottom: var(--space-lg);
+}
