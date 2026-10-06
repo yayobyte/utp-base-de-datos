@@ -4,6 +4,7 @@
 - **Unidad / semanas:** Unidad 3 (Diseño de BD, E/R y E-ER), semanas 4–6 según [syllabus](../curso/syllabus.md)
 - **Libro guía:** Connolly & Begg, caps. 11–13
 - **Modelo base:** [curso/docs/punto-1-modelado-utp.md](../curso/docs/punto-1-modelado-utp.md) + [examen/spec-punto-1-agents.md](examen/spec-punto-1-agents.md)
+- **Diseño de la base de datos (explicado):** [modelo-base-datos-punto-1.md](modelo-base-datos-punto-1.md)
 - **Estado:** especificación para seguimiento; se actualiza al cerrar el diseño. Dudas en [preguntas-abiertas.md](preguntas-abiertas.md).
 
 ---
