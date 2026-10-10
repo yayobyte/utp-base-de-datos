@@ -1,6 +1,6 @@
 /**
  * Prueba de punta a punta del punto 1 (semestre completo) en un navegador real.
- * Recorre las 7 fases con los 3 roles tal como lo haría un usuario y termina con «Restaurar».
+ * Recorre las 7 fases con los 3 roles tal como lo haría un usuario y termina con «Reiniciar base de datos».
  *
  *   npm run e2e:punto1                         # contra producción
  *   E2E_BASE_URL=http://localhost:5173 npm run e2e:punto1
@@ -143,8 +143,8 @@ await p.goto(`${BASE}/punto-1`, { waitUntil: 'networkidle0' })
 await waitText('Actuar como')
 
 await step('0. Restaurar escenario inicial', async () => {
-  await clickButton('↺ Restaurar')
-  await confirm('¿Restaurar la demostración?', 'Restaurar')
+  await clickButton('↺ Reiniciar base de datos')
+  await confirm('¿Reiniciar la base de datos?', 'Sí, reiniciar')
   await waitText('Demostración restaurada')
 })
 await snap('inicio')
@@ -397,8 +397,8 @@ await step('7c. Panel final', async () => {
 
 // ── Limpieza ─────────────────────────────────────────────────
 await step('8. Restaurar', async () => {
-  await clickButton('↺ Restaurar')
-  await confirm('¿Restaurar la demostración?', 'Restaurar')
+  await clickButton('↺ Reiniciar base de datos')
+  await confirm('¿Reiniciar la base de datos?', 'Sí, reiniciar')
   await waitText('Demostración restaurada')
 })
 await p.setViewport({ width: 375, height: 800 })

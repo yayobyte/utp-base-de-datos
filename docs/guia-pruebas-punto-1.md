@@ -10,7 +10,7 @@
 
 ## 0. Antes de empezar
 
-1. Abre `/punto-1` y pulsa **↺ Restaurar** (arriba a la derecha) → **Restaurar**. Todo vuelve al inicio:
+1. Abre `/punto-1` y pulsa **↺ Reiniciar base de datos** (arriba a la derecha) → **Sí, reiniciar** (advertencia: borra todos los semestres). Todo vuelve al inicio:
    periodo `2026-2` en **Planeación**, semana 1, sin prematrículas, estados originales.
 2. Para suplantar a alguien, pulsa su **avatar** en «Actuar como». El avatar activo se ve en negro.
 3. El menú de la izquierda muestra solo las acciones de esa persona:
@@ -172,9 +172,21 @@ Después del cierre:
 - **Sofía → Mi resumen** muestra *prueba*, «2 periodo(s) en prueba» y el historial con las notas de 2026-2.
 - **Laura → Panel** muestra los totales por estado, solicitudes, pagos y grupos con su docente.
 
-## 8. Terminar
+## 8. Siguiente semestre (opcional) — Laura
 
-Pulsa **↺ Restaurar** para dejar el sistema listo para la siguiente presentación.
+Con el periodo en **Cierre** (y el semestre ya cerrado), en **Calendario** pulsa **Abrir semestre 2027-1** → **Abrir semestre**.
+
+- Se conserva: historial de notas de 2026-2, estados (Sofía sigue en prueba con 2 periodos), planes de estudio.
+- Empieza vacío: programación, prematrículas, pagos, grupos y notas de 2027-1. El calendario debe aprobarse de nuevo.
+- Las asignaturas aprobadas en 2026-2 cuentan como prerrequisito: Ana (IS301 = 4.26) ya puede prematricular IS401.
+- Un estudiante «fuera por un semestre» no puede prematricular durante el periodo de la sanción, pero sí en el siguiente.
+- Si el semestre no se cerró, aparece «Primero cierra el semestre 2026-2…».
+
+Se puede repetir el ciclo completo (1 → 7) en 2027-1.
+
+## 9. Terminar
+
+Pulsa **↺ Reiniciar base de datos** → **Sí, reiniciar** para dejar el sistema listo para la siguiente presentación (vuelve a 2026-2 y borra los semestres siguientes).
 
 ---
 
@@ -190,7 +202,7 @@ Pulsa **↺ Restaurar** para dejar el sistema listo para la siguiente presentaci
 | «No pagó la matrícula» | Asignación / horario | Fue retirado por no pagar a tiempo |
 | «Cruce de horario con otra asignatura asignada» | Asignación | La única franja con cupo choca con otra asignatura ya asignada |
 | «Sin cupo en las franjas programadas» | Asignación | Todos los grupos posibles se llenaron |
-| «La asignación ya se ejecutó en este periodo» | Asignación | Solo se ejecuta una vez; para repetir usa **Restaurar** |
+| «La asignación ya se ejecutó en este periodo» | Asignación | Solo se ejecuta una vez; para repetir usa **Reiniciar base de datos** (o abre el semestre siguiente) |
 | «El docente ya tiene otro grupo en esa franja horaria» | Docentes | Elige otro docente |
 | «Requiere matrícula extemporánea habilitada» | Pago (ajustes) | Laura debe marcarla en Calendario |
 | «Los porcentajes suman N %; deben sumar 100 %» | Forma de evaluación | Ajusta los porcentajes |
@@ -204,6 +216,6 @@ Pulsa **↺ Restaurar** para dejar el sistema listo para la siguiente presentaci
 |---|---|
 | «Configura .env.local» en `/punto-1` | Faltan las variables de la BD #1 (ver [despliegue.md](despliegue.md)) |
 | Error al cargar el punto 1 | Abre `/estado`: la BD #1 debe estar *Conectada* con la migración `20261005000000` |
-| Quedó a mitad de una presentación anterior | **↺ Restaurar** |
+| Quedó a mitad de una presentación anterior | **↺ Reiniciar base de datos** |
 | Un docente no ve grupos | Laura aún no se los asignó (Ajustes → Docentes) |
 | «Cargando…» que no termina | Recarga la página; la persona suplantada se recuerda |

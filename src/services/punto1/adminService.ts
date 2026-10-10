@@ -52,6 +52,21 @@ export const adminService = {
     return next
   },
 
+  /**
+   * Abre el siguiente semestre (solo desde «Cierre»). Se conservan historial, estados y planes;
+   * programación, prematrículas, grupos y notas son por periodo, así que el nuevo arranca vacío.
+   */
+  async abrirSiguientePeriodo(): Promise<string> {
+    const cal = await calendarioActual()
+    if (cal.fase !== 'cierre') throw new DataError('Solo se puede abrir el siguiente semestre desde la fase de cierre', 'query_failed')
+    if ((await p1.historial.count({ periodo: cal.periodo })) === 0) {
+      throw new DataError(`Primero cierra el semestre ${cal.periodo} (pantalla Cierre): sus notas aún no están en el historial`, 'query_failed')
+    }
+    const periodo = periodoSiguiente(cal.periodo)
+    await p1.calendario.insert([{ periodo, fase: 'planeacion', semana_actual: 1, extemporanea: false }])
+    return periodo
+  },
+
   async aprobarCalendario() {
     const cal = await calendarioActual()
     await p1.calendario.update({ periodo: cal.periodo }, { aprobado_en: new Date().toISOString() })

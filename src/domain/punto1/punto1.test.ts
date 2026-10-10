@@ -219,3 +219,13 @@ describe('cierre: atributos derivados y matriz de estados', () => {
     expect(periodoSiguiente('2027-1')).toBe('2027-2')
   })
 })
+
+describe('sigueFuera (fuera por un semestre)', () => {
+  it('bloquea durante el periodo de la sanción y libera después; sin periodo es definitivo', async () => {
+    const { sigueFuera } = await import('./cierre')
+    expect(sigueFuera('fuera', '2027-1', '2027-1')).toBe(true)
+    expect(sigueFuera('fuera', '2027-1', '2027-2')).toBe(false)
+    expect(sigueFuera('fuera', null, '2030-1')).toBe(true)
+    expect(sigueFuera('prueba', null, '2027-1')).toBe(false)
+  })
+})

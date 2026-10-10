@@ -32,6 +32,7 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - [x] Fase 6 — Punto 1 (migración pendiente de push → integración GitHub la aplica)
 - [x] Fase 7 — Punto 3 normalización
 - [x] Extra — Talleres de clase (`/talleres`, PGlite por taller en IndexedDB)
+- [x] Extra — Diagrama E-R interactivo en los talleres (React Flow) + punto 1: abrir semestre siguiente y advertencia al reiniciar
 - [ ] Fase 8 — Integración GitHub↔Supabase + Vercel (repo listo; faltan pasos del usuario en dashboards)
 
 ## Decisiones tomadas
@@ -51,6 +52,8 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 | 2026-10-04 | Punto 2 sin Supabase: PostgreSQL en el navegador (PGlite) con las migraciones de `databases/punto-2`. Solo la BD #1 es remota (integración GitHub↔Supabase). |
 | 2026-10-05 | Punto 1 con las respuestas propuestas en preguntas-abiertas 1–5 (Admin = Director, sin auth real, semana simulada por Admin, «fuera por un semestre» = `hasta_periodo`, `en_bloque` como indicador). |
 | 2026-10-09 | Talleres de clase fuera del examen (`/talleres`): un PGlite por taller en IndexedDB (`idb://taller-<id>`), consola sin restricciones (es la copia del visitante); los scripts viven en `curso/docs/taller-joins/`. |
+| 2026-10-09 | Diagrama de talleres con **React Flow** (`@xyflow/react`) + **dagre** (layout por grupos conectados, en mosaico). FK declaradas = línea continua; si el esquema no declara ninguna (DreamHome), se deducen por nombre de columna (punteadas). |
+| 2026-10-09 | Punto 1 admite varios semestres: «Abrir semestre siguiente» solo desde cierre (y con el semestre cerrado) inserta el nuevo `calendario_academico`; historial y estados se conservan. «Fuera por un semestre» bloquea solo hasta `hasta_periodo` (`sigueFuera`). Reiniciar borra todos los semestres (advertencia común en `features/punto1/reinicio.tsx`). |
 | 2026-10-04 | Lint con **oxlint** (plantilla actual de Vite) en lugar de ESLint. Vite 8, React 19, TS 6. |
 
 ## Pendientes / bloqueos
@@ -59,6 +62,8 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - Preguntas abiertas: [docs/preguntas-abiertas.md](docs/preguntas-abiertas.md).
 
 ## Bitácora
+
+- **2026-10-09 — Diagrama de talleres + semestres del punto 1:** `fetchTallerSchema` (columnas, PK/FK de `pg_constraint`, 10 filas de muestra, relaciones deducidas por nombre si no hay FK declaradas; tipos cortos `varchar(n)`), `domain/talleres/diagramLayout.ts` (dagre por componente conexo, grupos en mosaico, handles por columna), `SchemaDiagram` (zoom con rueda, arrastre, minimapa, controles; conserva posiciones si solo cambian datos; «Reorganizar») y `TableNode` (columnas con PK/FK → tabla y mini tabla seleccionable, `nodrag nowheel`). Se recarga tras cada ejecución. Punto 1: `adminService.abrirSiguientePeriodo()` + botón/modal en Calendario (fase cierre), `sigueFuera` en prematrícula, botón «↺ Reiniciar base de datos» con advertencia «No se puede deshacer / todos los semestres» en cabecera y Calendario; guía y e2e actualizados. 115 tests en verde. Verificado en Chrome con el build: zoom y arrastre funcionan, 15 nodos/10 FK (JOINs) y 8 nodos/11 deducidas (DreamHome), sin muestras recortadas, sin errores, sin scroll horizontal a 375 px.
 
 - **2026-10-09 — Talleres de clase:** enlace «Talleres» en la navegación global, separado de los 3 puntos (y enlace desde el inicio). `/talleres` lista los talleres; `/talleres/:tallerId` = consola SQL (reutiliza `SqlConsole` con textos configurables), ejercicios plegables (`ExerciseCard`), tablas y vistas actuales (`TallerTablesPanel`) y script de creación. `data/talleres/tallerDb.ts`: un PGlite por taller con persistencia IndexedDB (memoria en pruebas), carga el script una vez (marca en `_taller.setup`), `runTallerScript` acepta cualquier SQL (rollback si falla), `resetTaller` borra `public` y recarga; fechas como texto. Talleres: JOINs dbbook (`taller-joins.sql` + 14 ejercicios de `taller-joins-solucion.sql`) y DreamHome (`taller-join-dreamhome.sql`). Pruebas: parser, ejercicios a–n en orden (m = Boeing 747-400 9795, n = LA→Honolulu 660), DDL + restaurar, ruta. 106 tests en verde. Verificado en Chrome con el build: persiste tras recargar, sin errores, sin scroll horizontal a 375 px.
 

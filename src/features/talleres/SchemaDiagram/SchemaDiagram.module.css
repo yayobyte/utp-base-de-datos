@@ -1,0 +1,39 @@
+.canvas {
+  position: relative;
+  height: 75vh;
+  min-height: calc(var(--size-modal) * 0.8);
+  overflow: hidden;
+  border-radius: var(--radius-xl);
+  background: var(--color-canvas-softer);
+}
+
+.loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font: var(--type-body-md);
+  color: var(--color-body);
+}
+
+.edge :global(.react-flow__edge-path) {
+  stroke: var(--color-ink);
+  stroke-width: var(--border-strong);
+}
+
+.inferred :global(.react-flow__edge-path) {
+  stroke: var(--color-hairline-mid);
+  stroke-width: var(--border-strong);
+  stroke-dasharray: 6 4;
+}
+
+.inferred :global(.react-flow__edge-text) {
+  font: var(--type-caption);
+  font-family: var(--font-mono);
+}
+
+.minimap {
+  border-radius: var(--radius-md);
+}
+

@@ -43,6 +43,7 @@ describe('semestre completo (punto 1)', () => {
 
   it('2. prematrícula: solo asignaturas permitidas por el plan y el reglamento', async () => {
     const juan = await estudianteService.prematricula('E002')
+    console.log('H', JSON.stringify(await p1.historial.findBy({ periodo: '2026-2' })), 'R', JSON.stringify(await p1.requisito.findAll()))
     expect(juan.opciones.find((o) => o.asignatura.cod_asignatura === 'IS301')).toMatchObject({ elegible: false })
     await expect(estudianteService.enviarPrematricula('E002', ['IS301'])).rejects.toThrow(/Prerrequisito sin aprobar: IS202/)
     await expect(estudianteService.enviarPrematricula('E005', ['IS303'])).rejects.toThrow(/simultáneamente/)
@@ -160,8 +161,26 @@ describe('semestre completo (punto 1)', () => {
     expect(await p1.historial.count({ periodo: '2026-2' })).toBeGreaterThan(0)
   })
 
-  it('9. reiniciar demo restaura el escenario', async () => {
+  it('9. abrir el siguiente semestre conserva historial y estados', async () => {
+    expect(await adminService.abrirSiguientePeriodo()).toBe('2027-1')
+    const cal = await calendarioActual()
+    expect(cal).toMatchObject({ periodo: '2027-1', fase: 'planeacion', semana_actual: 1, aprobado_en: null })
+    // Lo del semestre anterior sigue ahí; lo del nuevo arranca vacío
+    expect(await p1.historial.count({ periodo: '2026-2' })).toBeGreaterThan(0)
+    expect(await p1.solicitud.count({ periodo: '2027-1' })).toBe(0)
+    expect(await p1.programacion.count({ periodo: '2027-1' })).toBe(0)
+    expect(await p1.resumen.getOne({ id_persona: 'E003' })).toMatchObject({ estado: 'prueba', periodos_en_prueba: 2 })
+    // Ana aprobó IS301 en 2026-2 (4.26): en 2027-1 ya puede ver IS401
+    const ana = await estudianteService.prematricula('E001')
+    expect(ana.opciones.find((o) => o.asignatura.cod_asignatura === 'IS401')).toMatchObject({ elegible: true })
+    // Solo desde la fase de cierre
+    await expect(adminService.abrirSiguientePeriodo()).rejects.toThrow(/fase de cierre/)
+  })
+
+  it('10. reiniciar demo borra todos los semestres y restaura el escenario', async () => {
     await adminService.reiniciarDemo()
+    expect((await calendarioActual()).periodo).toBe('2026-2')
+    expect(await p1.calendario.count()).toBe(1)
     expect(await fase()).toBe('planeacion')
     expect(await p1.solicitud.count()).toBe(0)
     expect((await p1.resumen.getOne({ id_persona: 'E004' })).estado).toBe('transicion')

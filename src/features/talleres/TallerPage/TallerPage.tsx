@@ -10,6 +10,7 @@ import { SectionHeader } from '@/layout/SectionHeader/SectionHeader'
 import { tallerService } from '@/services/talleres/tallerService'
 import { Badge, Button, CodeBlock, Modal, Toast } from '@/ui'
 import { ExerciseCard } from '../ExerciseCard/ExerciseCard'
+import { SchemaDiagram } from '../SchemaDiagram/SchemaDiagram'
 import { TallerTablesPanel } from '../TallerTablesPanel/TallerTablesPanel'
 import styles from './TallerPage.module.css'
 import type { Notice, TallerPageProps } from './TallerPage.types'
@@ -28,6 +29,8 @@ export function TallerPage({ tallerId }: TallerPageProps) {
 
 function TallerContent({ taller }: { taller: Taller }) {
   const tables = useAsync(() => tallerService.loadTables(taller))
+  const schema = useAsync(() => tallerService.loadSchema(taller))
+  const [layoutKey, setLayoutKey] = useState(0)
   const [script, setScript] = useState(taller.initialQuery)
   const [confirmReset, setConfirmReset] = useState(false)
   const [resetting, setResetting] = useState(false)
@@ -40,9 +43,10 @@ function TallerContent({ taller }: { taller: Taller }) {
         return await fn()
       } finally {
         void tables.reload()
+        void schema.reload()
       }
     },
-    [tables],
+    [tables, schema],
   )
 
   const runConsole = (s: string) => runAndRefresh(() => tallerService.run(taller, s))
@@ -124,6 +128,22 @@ function TallerContent({ taller }: { taller: Taller }) {
           <TallerTablesPanel tables={tables.data} loading={tables.loading} error={tables.error} onReload={() => void tables.reload()} />
         </div>
       </div>
+
+      <section className={styles.diagram} aria-label="Diagrama de la base de datos">
+        <div className={styles.diagramHeader}>
+          <div>
+            <h2 className={styles.sectionTitle}>Diagrama</h2>
+            <p className={styles.sectionText}>
+              Rueda para acercar o alejar, arrastra el fondo para moverte y las tablas para reubicarlas. Cada tabla muestra sus
+              primeras 10 filas. Línea continua = llave foránea declarada; punteada = relación deducida por el nombre de la columna.
+            </p>
+          </div>
+          <Button variant="subtle" size="sm" onClick={() => setLayoutKey((k) => k + 1)}>
+            Reorganizar
+          </Button>
+        </div>
+        <SchemaDiagram schema={schema.data} loading={schema.loading} layoutKey={layoutKey} />
+      </section>
 
       <Modal
         open={confirmReset}

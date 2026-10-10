@@ -20,6 +20,20 @@ const tableCount = (name: string) => {
   return within(summary).getAllByText(/^\d+$/).at(-1)!.textContent
 }
 
+// React Flow mide el DOM: jsdom no trae ResizeObserver ni DOMMatrix.
+class ResizeObserverStub {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+}
+globalThis.ResizeObserver ??= ResizeObserverStub as unknown as typeof ResizeObserver
+globalThis.DOMMatrixReadOnly ??= class {
+  m22 = 1
+  constructor() {}
+} as unknown as typeof DOMMatrixReadOnly
+
+const diagramNode = (name: string) => document.querySelector(`[data-table="${name}"]`) as HTMLElement | null
+
 // Sin IndexedDB (jsdom) cada taller vive en memoria; se restaura antes de cada prueba.
 beforeAll(async () => {
   await Promise.all([getTallerDb(joins.id, joins.setupSql), getTallerDb(dreamhome.id, dreamhome.setupSql)])
@@ -78,6 +92,61 @@ describe('Talleres (PostgreSQL en el navegador)', () => {
     expect(byId.g.rowCount).toBe(0) // v_partes_rojas vacía tras el borrado
     expect(byId.m.rows).toEqual([{ aid: '1', aname: 'Boeing 747-400', millas: '9795' }])
     expect(byId.n.rows).toEqual([{ origin: 'Los Angeles', destination: 'Honolulu', pasajeros: '660' }])
+  })
+
+  it('el esquema trae las 10 FK declaradas del taller JOINs y 10 filas de muestra', async () => {
+    const schema = await tallerService.loadSchema(joins)
+    expect(schema.tables).toHaveLength(15)
+    expect(schema.relations.filter((r) => !r.inferred).map((r) => `${r.from}>${r.to}`).sort()).toEqual([
+      'catalog>parts',
+      'catalog>suppliers',
+      'certified>aircraft',
+      'certified>employees',
+      'class>faculty',
+      'dept>emp',
+      'enrolled>class',
+      'enrolled>student',
+      'works>dept',
+      'works>emp',
+    ])
+    expect(schema.relations.some((r) => r.inferred)).toBe(false)
+    const student = schema.tables.find((t) => t.name === 'student')!
+    expect([student.rows.length, student.total]).toEqual([10, 24])
+    expect(student.columns[0]).toMatchObject({ name: 'snum', pk: true, type: 'numeric(9,0)' })
+    const enrolled = schema.tables.find((t) => t.name === 'enrolled')!
+    expect(enrolled.columns.map((c) => [c.name, c.pk, c.fk])).toEqual([
+      ['snum', true, 'student'],
+      ['cname', true, 'class'],
+    ])
+  })
+
+  it('DreamHome no declara FK: las relaciones se deducen por el nombre de columna', async () => {
+    const schema = await tallerService.loadSchema(dreamhome)
+    const rels = schema.relations.map((r) => `${r.from}.${r.fromColumns[0]}>${r.to}`)
+    expect(schema.relations.every((r) => r.inferred)).toBe(true)
+    expect(rels).toEqual(
+      expect.arrayContaining([
+        'staff.branchno>branch',
+        'propertyforrent.ownerno>privateowner',
+        'propertyforrent.staffno>staff',
+        'viewing.clientno>client',
+        'viewing.propertyno>propertyforrent',
+        'lease.propertyno>propertyforrent',
+        'registration.staffno>staff',
+      ]),
+    )
+  })
+
+  it('el diagrama muestra las tablas con su muestra y agrega las tablas nuevas', async () => {
+    renderTaller('joins')
+    await waitFor(() => expect(diagramNode('student')).toBeTruthy(), { timeout: 10_000 })
+    expect(within(diagramNode('student')!).getByText('10 de 24 filas')).toBeTruthy()
+    expect(within(diagramNode('sailors')!).getByText('4 filas')).toBeTruthy()
+
+    const consola = document.getElementById('consola')!
+    fireEvent.change(within(consola).getByRole('textbox'), { target: { value: 'create table nueva(id int primary key);' } })
+    fireEvent.click(within(consola).getByRole('button', { name: 'Ejecutar' }))
+    await waitFor(() => expect(diagramNode('nueva')).toBeTruthy(), { timeout: 10_000 })
   })
 
   it('un error deja la BD usable y se muestra', async () => {

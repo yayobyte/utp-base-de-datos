@@ -15,6 +15,7 @@ import { Punto1Context } from '../context'
 import { PersonaSwitcher } from '../PersonaSwitcher/PersonaSwitcher'
 import { PhaseBanner } from '../PhaseBanner/PhaseBanner'
 import { RoleNav } from '../RoleNav/RoleNav'
+import { REINICIO_LABEL, REINICIO_TITULO, ReinicioAdvertencia } from '../reinicio'
 import styles from './Punto1Layout.module.css'
 
 const POINT = EXAM_POINTS.find((p) => p.id === 'punto-1')!
@@ -85,7 +86,7 @@ export function Punto1Layout() {
         actions={
           configured && (
             <Button variant="secondary" loading={busy} onClick={() => setConfirm(true)}>
-              ↺ Restaurar
+              {REINICIO_LABEL}
             </Button>
           )
         }
@@ -98,7 +99,7 @@ export function Punto1Layout() {
       {configured ? <Punto1Content key={version} /> : <SupabaseGuard project="p1">{null}</SupabaseGuard>}
       <Modal
         open={confirm}
-        title="¿Restaurar la demostración?"
+        title={REINICIO_TITULO}
         onClose={() => setConfirm(false)}
         footer={
           <>
@@ -108,15 +109,15 @@ export function Punto1Layout() {
             <Button
               onClick={() => {
                 setConfirm(false)
-                void run(() => reiniciarDemo(), 'Demostración restaurada: periodo en planeación y datos iniciales')
+                void run(() => reiniciarDemo(), 'Base de datos reiniciada: periodo 2026-2 en planeación y datos iniciales')
               }}
             >
-              Restaurar
+              Sí, reiniciar
             </Button>
           </>
         }
       >
-        Se borran prematrículas, pagos, grupos, notas y cambios de estado, y se vuelve a los datos iniciales (fase de planeación).
+        <ReinicioAdvertencia />
       </Modal>
     </>
   )

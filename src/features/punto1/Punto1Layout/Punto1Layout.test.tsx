@@ -74,9 +74,13 @@ describe('Punto1Layout (contra PGlite con la migración real)', () => {
     fireEvent.click(await screen.findByRole('button', { name: 'Avanzar a Prematrícula' }))
     await waitFor(() => expect(screen.getByText('Prematrícula', { selector: 'li' }).getAttribute('aria-current')).toBe('step'))
 
-    fireEvent.click(screen.getByRole('button', { name: '↺ Restaurar' }))
-    fireEvent.click(within(screen.getByRole('dialog', { name: '¿Restaurar la demostración?' })).getByRole('button', { name: 'Restaurar' }))
-    expect(await screen.findByText(/Demostración restaurada/)).toBeTruthy()
+    // El de la cabecera (Calendario tiene otro igual)
+    fireEvent.click(screen.getAllByRole('button', { name: '↺ Reiniciar base de datos' })[0])
+    const dialog = screen.getByRole('dialog', { name: '¿Reiniciar la base de datos?' })
+    expect(within(dialog).getByText('No se puede deshacer')).toBeTruthy()
+    expect(within(dialog).getByText('todos los semestres')).toBeTruthy()
+    fireEvent.click(within(dialog).getByRole('button', { name: 'Sí, reiniciar' }))
+    expect(await screen.findByText(/Base de datos reiniciada/)).toBeTruthy()
     await waitFor(() => expect(screen.getByText('Planeación', { selector: 'li' }).getAttribute('aria-current')).toBe('step'))
   })
 

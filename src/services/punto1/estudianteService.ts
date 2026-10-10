@@ -1,5 +1,6 @@
 import { DataError, p1 } from '@/data'
 import { puedeCancelar } from '@/domain/punto1/cancelacion'
+import { sigueFuera } from '@/domain/punto1/cierre'
 import { opcionesPrematricula, validarSeleccion } from '@/domain/punto1/prematricula'
 import type { GrupoDetalle } from '@/domain/punto1/types'
 import { calendarioActual } from './contexto'
@@ -31,8 +32,10 @@ export const estudianteService = {
     ])
     const plan = asignaturas.filter((a) => planAsig.some((p) => p.cod_asignatura === a.cod_asignatura))
     const programadas = new Set(programacion.map((p) => p.cod_asignatura))
+    const resumen = est.estado === 'fuera' ? await p1.resumen.getOne({ id_persona: id }) : undefined
     return {
       estado: est.estado,
+      fuera: sigueFuera(est.estado, resumen?.hasta_periodo, cal.periodo),
       opciones: opcionesPrematricula(plan, requisitos, historial).map((o) => ({ ...o, programada: programadas.has(o.asignatura.cod_asignatura) })),
       seleccion: actuales.map((s) => s.cod_asignatura),
     }
@@ -41,8 +44,8 @@ export const estudianteService = {
   async enviarPrematricula(id: string, seleccion: string[]) {
     const cal = await calendarioActual()
     if (cal.fase !== 'prematricula') throw new DataError('La prematrícula no está abierta', 'query_failed')
-    const { estado, opciones } = await this.prematricula(id)
-    if (estado === 'fuera') throw new DataError('Un estudiante fuera del programa no puede prematricular', 'query_failed')
+    const { fuera, opciones } = await this.prematricula(id)
+    if (fuera) throw new DataError('Un estudiante fuera del programa no puede prematricular', 'query_failed')
     const errores = validarSeleccion(seleccion, opciones)
     if (errores.length) throw new DataError(errores.join(' · '), 'query_failed')
     await p1.solicitud.remove({ periodo: cal.periodo, id_estudiante: id })

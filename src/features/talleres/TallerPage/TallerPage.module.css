@@ -69,3 +69,17 @@
   font: var(--type-body-sm-strong);
   cursor: pointer;
 }
+
+.diagram {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  margin-top: var(--space-3xl);
+}
+
+.diagramHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-lg);
+}

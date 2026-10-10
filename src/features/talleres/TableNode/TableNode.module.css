@@ -1,0 +1,131 @@
+.node {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: var(--border-hairline) solid var(--color-mute);
+  border-radius: var(--radius-md);
+  background: var(--color-canvas);
+  box-shadow: var(--shadow-md);
+  font: var(--type-caption);
+  color: var(--color-ink);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+  cursor: grab;
+}
+
+.name {
+  flex: 1;
+  font: var(--type-body-sm-strong);
+  font-family: var(--font-mono);
+}
+
+.tag,
+.count {
+  padding: 0 var(--space-xs);
+  border-radius: var(--radius-pill);
+  background: var(--color-black-elevated);
+  font: var(--type-caption);
+}
+
+.columns {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: var(--border-hairline) solid var(--color-surface-pressed);
+}
+
+.column {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xxs) var(--space-md);
+  font-family: var(--font-mono);
+}
+
+.column:nth-child(even) {
+  background: var(--color-canvas-softer);
+}
+
+.keys {
+  display: inline-flex;
+  gap: var(--space-xxs);
+  min-width: calc(var(--space-xl) * 1.6);
+}
+
+.pk,
+.fk {
+  padding: 0 var(--space-xxs);
+  border-radius: var(--radius-md);
+  font: var(--type-caption);
+  font-weight: 700;
+}
+
+.pk {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.fk {
+  border: var(--border-hairline) solid var(--color-ink);
+}
+
+.colName {
+  flex: 1;
+  font-weight: 600;
+}
+
+.colType {
+  color: var(--color-body);
+}
+
+.handle {
+  opacity: 0;
+}
+
+.data {
+  overflow-x: auto;
+  cursor: text;
+  user-select: text;
+}
+
+.table {
+  border-collapse: collapse;
+  font: var(--type-caption);
+  font-family: var(--font-mono);
+  white-space: nowrap;
+}
+
+.table th,
+.table td {
+  padding: var(--space-xxs) var(--space-sm);
+  border-bottom: var(--border-hairline) solid var(--color-surface-pressed);
+  text-align: left;
+}
+
+.table th {
+  position: sticky;
+  top: 0;
+  background: var(--color-canvas-soft);
+  font-weight: 700;
+}
+
+.null,
+.empty {
+  color: var(--color-mute);
+  font-style: italic;
+}
+
+.footer {
+  padding: var(--space-xs) var(--space-md);
+  border-top: var(--border-hairline) solid var(--color-surface-pressed);
+  color: var(--color-body);
+}

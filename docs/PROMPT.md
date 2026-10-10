@@ -131,3 +131,8 @@ use a file for the general typography and design system configuration so common 
 - Pedido: nueva navegación «Talleres» para ejecutar los scripts de clase (taller JOINs y DreamHome) en PGlite, sin interrumpir los 3 puntos.
 - Enlace «Talleres» separado tras los puntos; `/talleres` y `/talleres/:tallerId`. Un PGlite por taller guardado en IndexedDB, SQL sin restricciones, botón Restaurar.
 - Ejercicios a–n del taller JOINs leídos de `taller-joins-solucion.sql`.
+
+### Iteración 13 — 2026-10-09: diagrama de talleres + semestres del punto 1
+
+- Pedido: diagrama de la BD (zoom/desplazamiento, ~10 filas por tabla) bajo la consola de los talleres; en el punto 1, botón de reinicio con advertencia y saber si se puede hacer otro semestre conservando la información.
+- React Flow + dagre; relaciones deducidas en DreamHome. Punto 1: «Abrir semestre siguiente» (conserva historial y estados) y advertencia común al reiniciar.

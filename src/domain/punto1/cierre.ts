@@ -61,3 +61,12 @@ export function periodoSiguiente(periodo: string): string {
   const [anio, sem] = periodo.split('-').map(Number)
   return sem === 1 ? `${anio}-2` : `${anio + 1}-1`
 }
+
+/**
+ * ¿Sigue fuera del programa en `periodo`? «Fuera por un semestre» guarda en `hasta_periodo` el
+ * periodo de la sanción: a partir del siguiente puede volver a prematricular. Sin `hasta_periodo`, es definitivo.
+ */
+export function sigueFuera(estado: string, hastaPeriodo: string | null | undefined, periodo: string): boolean {
+  if (estado !== 'fuera') return false
+  return !hastaPeriodo || periodo <= hastaPeriodo
+}

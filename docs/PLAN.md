@@ -321,4 +321,4 @@ The current repo is a class-notes repo. It gets restructured: **the app lives at
 
 ## Extra — Talleres de clase (2026-10-09) ✅
 
-Sección aparte del examen: `/talleres` (índice) y `/talleres/:tallerId`. Catálogo en `src/domain/talleres/catalog.ts` (scripts de `curso/docs/taller-joins/` vía `?raw`; ejercicios con `parseExercises`). Datos: `src/data/talleres/tallerDb.ts`.
+Sección aparte del examen (+ diagrama E-R con React Flow bajo la consola): `/talleres` (índice) y `/talleres/:tallerId`. Catálogo en `src/domain/talleres/catalog.ts` (scripts de `curso/docs/taller-joins/` vía `?raw`; ejercicios con `parseExercises`). Datos: `src/data/talleres/tallerDb.ts`.
