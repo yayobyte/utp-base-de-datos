@@ -57,3 +57,13 @@
   font: var(--type-body-md);
   opacity: 0.8;
 }
+
+.extra {
+  font: var(--type-body-md);
+  color: var(--color-body);
+}
+
+.extra a {
+  color: var(--color-ink);
+  font-weight: 600;
+}

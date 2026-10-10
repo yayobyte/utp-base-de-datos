@@ -31,6 +31,7 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - [x] Fase 5 — Punto 2 (PostgreSQL en el navegador; sin BD remota)
 - [x] Fase 6 — Punto 1 (migración pendiente de push → integración GitHub la aplica)
 - [x] Fase 7 — Punto 3 normalización
+- [x] Extra — Talleres de clase (`/talleres`, PGlite por taller en IndexedDB)
 - [ ] Fase 8 — Integración GitHub↔Supabase + Vercel (repo listo; faltan pasos del usuario en dashboards)
 
 ## Decisiones tomadas
@@ -49,6 +50,7 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 | 2026-10-04 | Las migraciones se prueban con PGlite (`src/test/pglite.ts`); las páginas con datos, con `pgliteSupabase` en lugar de Supabase. |
 | 2026-10-04 | Punto 2 sin Supabase: PostgreSQL en el navegador (PGlite) con las migraciones de `databases/punto-2`. Solo la BD #1 es remota (integración GitHub↔Supabase). |
 | 2026-10-05 | Punto 1 con las respuestas propuestas en preguntas-abiertas 1–5 (Admin = Director, sin auth real, semana simulada por Admin, «fuera por un semestre» = `hasta_periodo`, `en_bloque` como indicador). |
+| 2026-10-09 | Talleres de clase fuera del examen (`/talleres`): un PGlite por taller en IndexedDB (`idb://taller-<id>`), consola sin restricciones (es la copia del visitante); los scripts viven en `curso/docs/taller-joins/`. |
 | 2026-10-04 | Lint con **oxlint** (plantilla actual de Vite) en lugar de ESLint. Vite 8, React 19, TS 6. |
 
 ## Pendientes / bloqueos
@@ -57,6 +59,8 @@ Repositorio de la asignatura Bases de Datos I (IS644, UTP) que contiene:
 - Preguntas abiertas: [docs/preguntas-abiertas.md](docs/preguntas-abiertas.md).
 
 ## Bitácora
+
+- **2026-10-09 — Talleres de clase:** enlace «Talleres» en la navegación global, separado de los 3 puntos (y enlace desde el inicio). `/talleres` lista los talleres; `/talleres/:tallerId` = consola SQL (reutiliza `SqlConsole` con textos configurables), ejercicios plegables (`ExerciseCard`), tablas y vistas actuales (`TallerTablesPanel`) y script de creación. `data/talleres/tallerDb.ts`: un PGlite por taller con persistencia IndexedDB (memoria en pruebas), carga el script una vez (marca en `_taller.setup`), `runTallerScript` acepta cualquier SQL (rollback si falla), `resetTaller` borra `public` y recarga; fechas como texto. Talleres: JOINs dbbook (`taller-joins.sql` + 14 ejercicios de `taller-joins-solucion.sql`) y DreamHome (`taller-join-dreamhome.sql`). Pruebas: parser, ejercicios a–n en orden (m = Boeing 747-400 9795, n = LA→Honolulu 660), DDL + restaurar, ruta. 106 tests en verde. Verificado en Chrome con el build: persiste tras recargar, sin errores, sin scroll horizontal a 375 px.
 
 - **2026-10-05 — Documento del diseño de la BD #1:** `docs/modelo-base-datos-punto-1.md` (bloques, diagrama ER, las dos especializaciones E-ER, diccionario de datos de las 22 tablas, relaciones y cardinalidades con su porqué, ON DELETE, recorrido del proceso por tablas, vistas y funciones, validaciones BD vs app, 3FN, cambios respecto al modelo de clase, consultas de ejemplo, glosario y preguntas de repaso). Enlazado desde README y especificación.
 

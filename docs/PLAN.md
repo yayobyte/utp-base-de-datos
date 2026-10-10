@@ -318,3 +318,7 @@ The current repo is a class-notes repo. It gets restructured: **the app lives at
 - Grep guards: no hex/px literals in `*.module.css`; every `src/ui/*` and `src/features/**` component folder has exactly 3 files; no `supabase` import outside `src/data/`.
 - Manual walkthrough on `npm run dev` and on the Vercel preview: home → each point; point 2 a–e results match the expected values; point 1 full phase cycle; point 3 stepper.
 - `CLAUDE.md` Bitácora, `docs/PLAN.md` checkboxes and `docs/PROMPT.md` iteration notes are updated.
+
+## Extra — Talleres de clase (2026-10-09) ✅
+
+Sección aparte del examen: `/talleres` (índice) y `/talleres/:tallerId`. Catálogo en `src/domain/talleres/catalog.ts` (scripts de `curso/docs/taller-joins/` vía `?raw`; ejercicios con `parseExercises`). Datos: `src/data/talleres/tallerDb.ts`.

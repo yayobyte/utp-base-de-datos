@@ -26,6 +26,18 @@ export const routes: RouteObject[] = [
         lazy: () => import('@/features/punto3/Punto3Page/Punto3Page').then((m) => ({ Component: m.Punto3Page })),
       },
       {
+        path: 'talleres',
+        lazy: () =>
+          Promise.all([import('@/features/talleres/TalleresPage/TalleresPage'), import('@/domain/talleres/catalog')]).then(([m, c]) => ({
+            Component: () => <m.TalleresPage talleres={c.TALLERES} />,
+          })),
+      },
+      {
+        // Cada taller con su propio PostgreSQL (PGlite) guardado en el navegador.
+        path: 'talleres/:tallerId',
+        lazy: () => import('@/features/talleres/TallerPage/TallerPage').then((m) => ({ Component: () => <m.TallerPage /> })),
+      },
+      {
         path: 'estado',
         lazy: () => import('@/features/estado/StatusPage/StatusPage').then((m) => ({ Component: () => <m.StatusPage /> })),
       },

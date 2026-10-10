@@ -12,8 +12,15 @@ const preview = (script: string) => {
   return line.length > 40 ? `${line.slice(0, 40)}…` : line
 }
 
-/** Consola SQL real sobre la BD #2 (RPC run_sql). Ctrl/⌘ + Enter ejecuta. */
-export function SqlConsole({ value, onChange, onRun }: SqlConsoleProps) {
+/** Consola SQL real (punto 2 y talleres). Ctrl/⌘ + Enter ejecuta. */
+export function SqlConsole({
+  value,
+  onChange,
+  onRun,
+  subtitle = 'PostgreSQL real · esquema examen · Ctrl/⌘ + Enter',
+  inputHint = "Varias sentencias: termina cada una con ';' al final de la línea. Solo SELECT, WITH, INSERT, UPDATE y DELETE.",
+  placeholder = 'SELECT * FROM dvd;',
+}: SqlConsoleProps) {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState<SqlResult>()
   const [error, setError] = useState<DataError>()
@@ -46,7 +53,7 @@ export function SqlConsole({ value, onChange, onRun }: SqlConsoleProps) {
     <Card as="section" variant="soft" className={styles.console} id="consola">
       <div className={styles.header}>
         <h2 className={styles.title}>Consola SQL</h2>
-        <span className={styles.hint}>PostgreSQL real · esquema examen · Ctrl/⌘ + Enter</span>
+        <span className={styles.hint}>{subtitle}</span>
       </div>
 
       <TextArea
@@ -56,8 +63,8 @@ export function SqlConsole({ value, onChange, onRun }: SqlConsoleProps) {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         onKeyDown={onKeyDown}
-        placeholder="SELECT * FROM dvd;"
-        hint="Varias sentencias: termina cada una con ';' al final de la línea. Solo SELECT, WITH, INSERT, UPDATE y DELETE."
+        placeholder={placeholder}
+        hint={inputHint}
       />
 
       <div className={styles.actions}>

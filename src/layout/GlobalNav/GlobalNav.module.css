@@ -32,3 +32,11 @@
 .label {
   font-weight: 400;
 }
+
+/* Separa los talleres de clase de los puntos del examen. */
+.divider {
+  align-self: stretch;
+  width: var(--border-hairline);
+  margin: var(--space-xs) var(--space-xs);
+  background: var(--color-hairline-mid);
+}

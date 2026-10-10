@@ -11,6 +11,7 @@ beforeAll(async () => {
     import('@/features/punto2/Punto2Page/Punto2Page'),
     import('@/features/punto3/Punto3Page/Punto3Page'),
     import('@/features/estado/StatusPage/StatusPage'),
+    import('@/features/talleres/TalleresPage/TalleresPage'),
   ])
 }, 30_000)
 
@@ -41,6 +42,15 @@ describe('router', () => {
     renderAt('/estado')
     expect(await screen.findByRole('heading', { level: 1, name: 'Estado del despliegue' }, { timeout: 5000 })).toBeTruthy()
     expect(await screen.findAllByText('Sin configurar')).toHaveLength(1)
+  })
+
+  it('/talleres lista los talleres sin tocar los puntos del examen', async () => {
+    renderAt('/talleres')
+    expect(await screen.findByRole('heading', { level: 1, name: 'Talleres' }, { timeout: 5000 })).toBeTruthy()
+    expect(screen.getByRole('heading', { name: 'Taller JOINs — dbbook' })).toBeTruthy()
+    expect(screen.getByRole('heading', { name: 'Taller DreamHome' })).toBeTruthy()
+    expect(screen.getByRole('link', { name: 'Talleres' }).getAttribute('aria-current')).toBe('page')
+    expect(screen.getAllByRole('link', { name: /Punto \d/ })).toHaveLength(3)
   })
 
   it('muestra 404 en rutas desconocidas', () => {

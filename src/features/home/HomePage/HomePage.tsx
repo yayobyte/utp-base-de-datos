@@ -1,4 +1,5 @@
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { TALLERES_PATH } from '@/layout/navigation'
 import { Button, Card } from '@/ui'
 import styles from './HomePage.module.css'
 import type { HomePageProps } from './HomePage.types'
@@ -30,6 +31,10 @@ export function HomePage({ points }: HomePageProps) {
           </Card>
         ))}
       </section>
+
+      <p className={styles.extra}>
+        ¿Buscas el material de clase? Los <Link to={TALLERES_PATH}>talleres</Link> tienen su propia base de datos para practicar.
+      </p>
     </div>
   )
 }

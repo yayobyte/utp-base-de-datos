@@ -1,0 +1,48 @@
+.card {
+  min-width: 0;
+  border-radius: var(--radius-xl);
+  background: var(--color-canvas-soft);
+  scroll-margin-top: calc(var(--size-control-height) * 2);
+}
+
+.summary {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  font: var(--type-body-md-strong);
+  cursor: pointer;
+  list-style: none;
+}
+
+.summary::-webkit-details-marker {
+  display: none;
+}
+
+.summary::after {
+  content: '▸';
+  margin-left: auto;
+  transition: transform var(--motion-fast);
+}
+
+.card[open] > .summary::after {
+  transform: rotate(90deg);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: 0 var(--space-lg) var(--space-lg);
+}
+
+.notes {
+  font: var(--type-body-sm);
+  color: var(--color-body);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}

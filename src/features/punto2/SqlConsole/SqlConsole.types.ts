@@ -5,4 +5,9 @@ export interface SqlConsoleProps {
   value: string
   onChange: (value: string) => void
   onRun: (script: string) => Promise<SqlResult>
+  /** Texto junto al título (motor, atajo). */
+  subtitle?: string
+  /** Ayuda bajo el área de texto. */
+  inputHint?: string
+  placeholder?: string
 }

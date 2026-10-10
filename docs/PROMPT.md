@@ -125,3 +125,9 @@ use a file for the general typography and design system configuration so common 
 - Semestre completo probado en producción (Chrome, 37 pasos) → `npm run e2e:punto1`.
 - Guía paso a paso con resultados esperados y mensajes: docs/guia-pruebas-punto-1.md.
 - Correcciones: avisos de éxito que se ocultan solos; simultaneidad imposible se muestra bloqueada.
+
+### Iteración 12 — 2026-10-09: talleres de clase
+
+- Pedido: nueva navegación «Talleres» para ejecutar los scripts de clase (taller JOINs y DreamHome) en PGlite, sin interrumpir los 3 puntos.
+- Enlace «Talleres» separado tras los puntos; `/talleres` y `/talleres/:tallerId`. Un PGlite por taller guardado en IndexedDB, SQL sin restricciones, botón Restaurar.
+- Ejercicios a–n del taller JOINs leídos de `taller-joins-solucion.sql`.

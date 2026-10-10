@@ -39,3 +39,6 @@ export const EXAM_POINTS: ExamPoint[] = [
     cta: 'Ver normalización',
   },
 ]
+
+/** Talleres de clase: sección aparte de los puntos del examen (ver domain/talleres/catalog). */
+export const TALLERES_PATH = '/talleres'
